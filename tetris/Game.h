@@ -11,60 +11,57 @@
 #include <map>
 
 #include "Bitmap.h"
+#include "Command.h"
+#include "Resource.h"
+#include "Settings.h"
+#include "RenderComponent.h"
+#include "PhysicsComponent.h"
+#include "GDIBitmap.h"
 
+
+class RenderComponent;
+class PhysicsComponent;
 
 class Game {
 public:
-	Game() {};
-	~Game() {};
+    Game() {};
+    ~Game() {};
 
-	void InitializeGraphics(HWND window);
-	void BeginGraphics();
-	void DrawBitmap(Bitmap bitmap, int x, int y)  const;
-	void DrawString(const std::wstring text, COLORREF color, int x, int y) const;
-	void DrawLevel() const;
-	void Render(const double interpolation);
-	void EndGraphics();
-	void FreeBitmap(Bitmap bitmap);
-	void ShutdownGraphics();
+    bool LoadBitmapFromFile(const std::wstring filename, Resource resource);
+    void InitializeGraphics(HWND window);
+    void BeginGraphics();
+    void DrawBitmap(Bitmap bitmap, int x, int y)  const;
+    void DrawString(const std::wstring text, COLORREF color, int x, int y) const;
+    void Render(const double interpolation);
+    void Update(const double deltaTime);
+    void EndGraphics();
+    void FreeBitmap(Bitmap bitmap);
+    void ShutdownGraphics();
 
-	void Start();
-	void MovePlayer(Command command);
-	void ProcessInput(Command command);
-	void CheckWinningCondition();
-	void AddLevel(std::shared_ptr<Level> level);
+    void Start();
+    void ProcessInput(Command command);
 
-	// GDI-related stuff
-	HWND window;
-	int windowWidth;
-	int windowHeight;
+    // GDI-related stuff
+    HWND window;
+    HDC backbufferDC;
+    HBITMAP backbufferBitmap;
+    HDC bitmapDC;
+    HGDIOBJ oldObject;
 
-	HDC backbufferDC;
-	HBITMAP backbufferBitmap;
+    
+    // EOF GDI
 
-	HDC bitmapDC;
 
-	struct GDIBitmap
-	{
-		HBITMAP handle;
-		int width;
-		int height;
+    //std::vector<std::shared_ptr<Entity>> entities;
+    std::vector<std::shared_ptr<RenderComponent>> renderComponents;
+    std::vector<std::shared_ptr<PhysicsComponent>> physicsComponents;
+    //std::vector<std::shared_ptr<>
 
-		GDIBitmap()
-			: handle(0)
-		{
-		}
-	};
-	// EOF GDI
-
-	
-	std::vector<std::shared_ptr<Entity>> entities;
-	std::map<Resource, Bitmap> bitmapDictionary;
-	std::map<Resource, std::wstring> fileDictionary;
-	std::vector<GDIBitmap> gdiBitmaps;
-	std::vector<Bitmap> bitmaps;
-	Bitmap playerBitmap;
-	int score;
-	HGDIOBJ oldObject;
+    std::map<Resource, Bitmap> bitmapDictionary;
+    std::map<Resource, std::wstring> fileDictionary;
+    std::vector<GDIBitmap> gdiBitmaps;
+    std::vector<Bitmap> bitmaps;
+    //Bitmap playerBitmap;
+    //int score;
 private:
 };

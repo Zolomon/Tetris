@@ -2,5 +2,5 @@
 
 struct Bitmap
 {
-	int index;
+    size_t index;
 };
