@@ -1,5 +1,6 @@
 #include "Game.h"
 
+
 bool Game::LoadBitmapFromFile(const std::wstring filename, Resource resource)
 {
     Bitmap bitmap;
@@ -81,20 +82,20 @@ void Game::DrawString(const std::wstring text, COLORREF color, int x, int y) con
 
 void Game::Update(const double deltaTime)
 {
-    for (auto& physics : physicsComponents)
-    {
-        physics->Update(deltaTime);
-    }
+    //for (auto& physics : physicsComponents)
+    //{
+    //    physics->Update(deltaTime);
+    //}
 }
 
 void Game::Render(const double interpolation)
 {
     BeginGraphics();
 
-    for (auto& render : renderComponents)
+    /*for (auto& render : renderComponents)
     {
         render->Render(*this);
-    }
+    }*/
 
     // In case more entities are added.
     /*for (auto& entity : entities) {
@@ -158,11 +159,11 @@ void Game::ShutdownGraphics()
 
 void Game::Start()
 {
-    auto redBlockPhysicsComponent = std::make_shared<PhysicsComponent>(glm::vec2(10.0f, 10.0f), glm::vec2(16.0f));
-    auto redBlockRenderComponent = std::make_shared<RenderComponent>(bitmapDictionary[Resource::RedBlock], redBlockPhysicsComponent);
+    /*auto redBlockPhysicsComponent = std::make_shared<PhysicsComponent>(glm::vec2(10.0f, 10.0f), glm::vec2(16.0f));
+    auto redBlockRenderComponent = std::make_shared<RenderComponent>(bitmapDictionary[Resource::RedBlock], redBlockPhysicsComponent);*/
 
-    physicsComponents.push_back(redBlockPhysicsComponent);
-    renderComponents.push_back(redBlockRenderComponent);
+    //physicsComponents.push_back(redBlockPhysicsComponent);
+    //renderComponents.push_back(redBlockRenderComponent);
 }
 
 void Game::ProcessInput(Command command)

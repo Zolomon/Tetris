@@ -3,6 +3,7 @@
 #include <tchar.h>
 #include "Settings.h"
 #include "Game.h"
+#include "Application.h"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -41,6 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     ShowWindow(hwnd, nCmdShow);
 
     MSG msg = { 0 };
+	Application app(game);
 
     const double FRAMES_PER_SEC = 60.0;
     const double SEC_PER_UPDATE = 1.0 / FRAMES_PER_SEC;
@@ -52,6 +54,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         auto deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - previousTime).count();
         previousTime = currentTime;
 
+		app.update(deltaTime);
         Update(deltaTime, &msg);
         Render();
 

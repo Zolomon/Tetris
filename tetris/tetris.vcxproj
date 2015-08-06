@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\glm\;.\entityx\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -125,15 +125,27 @@
     <ClCompile Include="RenderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="Body.h" />
+    <ClInclude Include="BodySystem.h" />
+    <ClInclude Include="BounceSystem.h" />
+    <ClInclude Include="Collideable.h" />
+    <ClInclude Include="CollisionEvent.h" />
+    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Command.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ExplosionSystem.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GDIBitmap.h" />
-    <ClInclude Include="PhysicsComponent.h" />
-    <ClInclude Include="RenderComponent.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleRenderSystem.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Renderable.h" />
+    <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="SpawnSystem.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
