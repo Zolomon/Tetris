@@ -37,6 +37,8 @@ public:
 
     void Start();
     void ProcessInput(Command command);
+	std::vector<Command> GetCommandsThisFrame();
+	void AddCommand(Command command);
 
     // GDI-related stuff
     HWND window;
@@ -58,6 +60,7 @@ public:
     std::map<Resource, std::wstring> fileDictionary;
     std::vector<GDIBitmap> gdiBitmaps;
     std::vector<Bitmap> bitmaps;
+	std::vector<Command> commandsThisFrame;
     //Bitmap playerBitmap;
     //int score;
 private:

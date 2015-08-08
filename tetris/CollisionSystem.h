@@ -6,6 +6,7 @@
 #include "CollisionEvent.h"
 #include "Body.h"
 #include "Collideable.h"
+#include "ScoreEvent.h"
 
 // Determines if two Collideable bodies have collided. If they have it emits a
 // CollisionEvent. This is used by ExplosionSystem to create explosion
@@ -69,8 +70,10 @@ private:
 			for (const Candidate &left : candidates) {
 				for (const Candidate &right : candidates) {
 					if (left.entity == right.entity) continue;
-					if (collided(left, right))
+					if (collided(left, right)) {
 						events.emit<CollisionEvent>(left.entity, right.entity);
+						events.emit<ScoreEvent>();
+					}
 				}
 			}
 		}

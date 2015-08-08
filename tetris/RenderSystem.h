@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Renderable.h"
 #include "Body.h"
+#include "ScoreScreen.h"
 
 // Render all Renderable entities and draw some informational text.
 class RenderSystem :public entityx::System<RenderSystem> {
@@ -17,6 +18,13 @@ public:
 		es.each<Body, Renderable>([this](entityx::Entity entity, Body &body, Renderable &renderable) {
 			target->DrawBitmap(renderable.shape, body.position.x, body.position.y);
 		});
+		es.each<ScoreScreen>([this](entityx::Entity entity, ScoreScreen &scoreScreen)
+		{
+			std::wstring score = std::to_wstring(scoreScreen.score);
+			target->DrawString(score, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y);
+			target->DrawString(score, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y - 1);
+		});
+
 		last_update += dt;
 		frame_count++;
 		std::wstring out;

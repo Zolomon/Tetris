@@ -171,3 +171,17 @@ void Game::ProcessInput(Command command)
 
 }
 
+std::vector<Command> Game::GetCommandsThisFrame()
+{
+	auto commands = this->commandsThisFrame;
+	commandsThisFrame.clear();
+	return commands;
+}
+
+void Game::AddCommand(Command command)
+{
+	commandsThisFrame.push_back(command);
+}
+
+
+

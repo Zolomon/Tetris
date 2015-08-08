@@ -6,15 +6,28 @@
 #include "Utils.h"
 #include "Body.h"
 #include "Renderable.h"
+#include "ScoreScreen.h"
 
 class SpawnSystem : public entityx::System<SpawnSystem> {
 public:
-	explicit SpawnSystem(int count) : size(Settings::Window::Size), count(count) {}
+	explicit SpawnSystem(int count) : size(Settings::Window::Size), count(count)
+	{
+	}
 
 	void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override {
 		int c = 0;
 		entityx::ComponentHandle<Collideable> collideable;
 		es.each<Collideable>([&](entityx::Entity entity, Collideable&) { ++c; });
+	
+		bool scoreScreenExists = false;
+		entityx::ComponentHandle<ScoreScreen> scoreScreen;
+		es.each<ScoreScreen>([&](entityx::Entity entity, ScoreScreen&) { scoreScreenExists = true;});
+
+		if (!scoreScreenExists)
+		{
+			entityx::Entity entity = es.create();
+			entity.assign<ScoreScreen>(glm::vec2(100, 25));
+		}
 
 		for (int i = 0; i < count - c; i++) {
 			entityx::Entity entity = es.create();
