@@ -7,6 +7,8 @@
 #include "Utils.h"
 #include "Particle.h"
 
+#define M_PI (3.14159265358979323846)
+
 // For any two colliding bodies, destroys the bodies and emits a bunch of bodgy explosion particles.
 class ExplosionSystem : public entityx::System<ExplosionSystem>, public entityx::Receiver<ExplosionSystem> {
 public:
@@ -27,23 +29,24 @@ public:
 		entityx::ComponentHandle<Renderable> renderable = entity.component<Renderable>();
 		entityx::ComponentHandle<Collideable> collideable = entity.component<Collideable>();
 
-		float area = (3.1459 * collideable->radius * collideable->radius) / 3.0;
-		for (int i = 0; i < area; i++) {
-			entityx::Entity particle = es.create();
+		////float area = (M_PI * collideable->size.x * collideable->size.y) / 3.0;
+		//for (int i = 0; i < 10; i++) {
+		//	entityx::Entity particle = es.create();
 
-			float rotationd = r(720, 180);
-			if (std::rand() % 2 == 0) rotationd = -rotationd;
+		//	float rotationd = r(720, 180);
+		//	if (std::rand() % 2 == 0) rotationd = -rotationd;
 
-			float offset = r(collideable->radius, 1);
-			float angle = r(360) * 3.1459 / 180.0;
-			particle.assign<Body>(
-				body->position + glm::vec2(offset * cos(angle), offset * sin(angle)),
-				body->direction + glm::vec2(offset * 2 * cos(angle), offset * 2 * sin(angle)),
-				rotationd);
+		//	float offset = r(collideable->size.x, 1);
+		//	float angle = r(360) * M_PI / 180.0;
+		//	particle.assign<Body>(
+		//		body->position + glm::vec2(offset * cos(angle), offset * sin(angle)),
+		//		body->direction + glm::vec2(offset * 2 * cos(angle), offset * 2 * sin(angle)),
+		//		rotationd);
 
-			float radius = r(3, 1);
-			particle.assign<Particle>(radius, radius / 2);
-		}
+		//	float radius = r(3, 1);
+		//	//particle.assign<Particle>(radius, radius / 2);
+		//}
+
 	}
 
 	void receive(const CollisionEvent &collision) {

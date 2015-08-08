@@ -20,11 +20,16 @@ public:
 			entityx::Entity entity = es.create();
 
 			// Mark as collideable (explosion particles will not be collideable).
-			collideable = entity.assign<Collideable>(r(10, 5));
+			collideable = entity.assign<Collideable>(glm::vec2(16, 16));
+
+			std::random_device rd;
+			std::mt19937 mt(rd());
+			std::uniform_real_distribution<double> randomWidth(16, Settings::Window::Size.x);
+			std::uniform_real_distribution<double> randomHeight(16, Settings::Window::Size.y);
 
 			// "Physical" attributes.
 			entity.assign<Body>(
-				glm::vec2(r(size.x), r(size.y)),
+				glm::vec2(randomWidth(mt), randomHeight(mt)),
 				glm::vec2(r(100, -50), r(100, -50)));
 
 			// Shape to apply to entity.

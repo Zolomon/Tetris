@@ -1,7 +1,7 @@
 #pragma once
 
 struct Collideable {
-	explicit Collideable(float radius) : radius(radius) {}
+	explicit Collideable(glm::vec2 size) : size(size) {}
 
-	float radius;
+	glm::vec2 size;
 };

@@ -18,7 +18,7 @@ class CollisionSystem : public entityx::System<CollisionSystem> {
 
 	struct Candidate {
 		glm::vec2 position;
-		float radius;
+		glm::vec2 size;
 		entityx::Entity entity;
 	};
 
@@ -46,11 +46,11 @@ private:
 	void collect(entityx::EntityManager &entities) {
 		entities.each<Body, Collideable>([this](entityx::Entity entity, Body &body, Collideable &collideable) {
 			unsigned int
-				left = static_cast<int>(body.position.x - collideable.radius) / PARTITIONS,
-				top = static_cast<int>(body.position.y - collideable.radius) / PARTITIONS,
-				right = static_cast<int>(body.position.x + collideable.radius) / PARTITIONS,
-				bottom = static_cast<int>(body.position.y + collideable.radius) / PARTITIONS;
-			Candidate candidate{ body.position, collideable.radius, entity };
+				left = static_cast<int>(body.position.x) / PARTITIONS,
+				top = static_cast<int>(body.position.y) / PARTITIONS,
+				right = static_cast<int>(body.position.x + collideable.size.x) / PARTITIONS,
+				bottom = static_cast<int>(body.position.y + collideable.size.y) / PARTITIONS;
+			Candidate candidate{ body.position, collideable.size, entity };
 			unsigned int slots[4] = {
 				left + top * size.x,
 				right + top * size.x,
@@ -81,6 +81,9 @@ private:
 	}
 
 	bool collided(const Candidate &left, const Candidate &right) {
-		return length(left.position - right.position) < left.radius + right.radius;
+		return (abs(left.position.x - right.position.x) * 2 < (left.size.x + right.size.x)) &&
+			(abs(left.position.y - right.position.y) * 2 < (left.size.y + right.size.y));
+
+		//return length(left.position - right.position) < left.size + right.size;
 	}
 };

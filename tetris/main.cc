@@ -41,12 +41,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     UpdateWindow(hwnd);
     ShowWindow(hwnd, nCmdShow);
 
+	game = std::make_shared<Game>();
+	game->InitializeGraphics(hwnd);
+	game->Start();
+
     MSG msg = { 0 };
 	Application app(game);
 
     const double FRAMES_PER_SEC = 60.0;
     const double SEC_PER_UPDATE = 1.0 / FRAMES_PER_SEC;
-
+		
     auto previousTime = Settings::Window::Clock.now();
     while (Settings::Window::IsRunning)
     {
@@ -55,8 +59,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         previousTime = currentTime;
 
 		app.update(deltaTime);
-        Update(deltaTime, &msg);
-        Render();
+        //Update(deltaTime, &msg);
+        //Render();
 
         auto msToNextFrame = static_cast<int>((SEC_PER_UPDATE - deltaTime) * 1000.0);
         if (msToNextFrame > 0)
