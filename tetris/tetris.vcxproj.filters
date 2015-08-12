@@ -22,6 +22,15 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{8c53a902-7f20-47b0-accc-692b175665ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Systems">
+      <UniqueIdentifier>{a12a9dd7-a48c-4d00-ba28-64c1cfd15029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Applications">
+      <UniqueIdentifier>{93a9b014-9d80-4070-8cf0-e2eac9489185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Screens">
+      <UniqueIdentifier>{af67fecd-7f8b-4791-a87a-9dd64bea1541}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">
@@ -30,11 +39,35 @@
     <ClCompile Include="Game.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ParticleRenderSystem.cc">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsComponent.cc">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="RenderSystem.cc">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuApplication.cc">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="GameApplication.cc">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuGameScreen.cc">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="BodySystem.cc">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="BounceSystem.cc">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSystem.cc">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionSystem.cc">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cc">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="MoveRightEvent.h">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreen.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

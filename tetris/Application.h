@@ -10,33 +10,31 @@
 #include "RenderSystem.h"
 #include "ParticleRenderSystem.h"
 #include "ScoreSystem.h"
+#include "Game.h"
 
+class Game;
 
 class Application : public entityx::EntityX {
 public:
-	explicit Application(std::shared_ptr<Game> game) {
-		systems.add<SpawnSystem>(10);
-		systems.add<BodySystem>();
-		systems.add<BounceSystem>();
-		systems.add<CollisionSystem>();/*
-		systems.add<ExplosionSystem>();
-		systems.add<ParticleSystem>();*/
-		systems.add<ScoreSystem>();
-		systems.add<RenderSystem>(game);
-		
-		/*systems.add<ParticleRenderSystem>(game);*/
-		systems.configure();
+	virtual ~Application()
+	{
 	}
 
-	void update(entityx::TimeDelta dt) {
-		systems.update<SpawnSystem>(dt);
-		systems.update<BodySystem>(dt);
-		systems.update<BounceSystem>(dt);
-		systems.update<CollisionSystem>(dt);/*
-		systems.update<ExplosionSystem>(dt);
-		systems.update<ParticleSystem>(dt);*/
-		systems.update<ScoreSystem>(dt);
-		systems.update<RenderSystem>(dt);
-		/*systems.update<ParticleRenderSystem>(dt);*/
-	}
+	virtual void update(entityx::TimeDelta dt) = 0;
 };
+
+class MainMenuApplication : public Application
+{
+public: 
+	explicit MainMenuApplication(std::shared_ptr<Game> game);
+
+	void update(entityx::TimeDelta dt) override;
+};
+
+class GameApplication : public Application {
+public:
+	explicit GameApplication(std::shared_ptr<Game> game);
+
+	void update(entityx::TimeDelta dt) override;
+};
+

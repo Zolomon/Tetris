@@ -15,9 +15,12 @@
 #include "Command.h"
 #include "Resource.h"
 #include "GDIBitmap.h"
+#include "GameScreen.h"
 
 //class RenderComponent;
 //class PhysicsComponent;
+class GameScreen;
+enum GameScreenType;
 
 class Game {
 public:
@@ -56,6 +59,9 @@ public:
     //std::vector<std::shared_ptr<PhysicsComponent>> physicsComponents;
     //std::vector<std::shared_ptr<>
 
+	std::shared_ptr<Game> game;
+	std::vector<std::shared_ptr<GameScreen>> screens;
+	std::map<GameScreenType, std::shared_ptr<GameScreen>> gameScreenDictionary;
     std::map<Resource, Bitmap> bitmapDictionary;
     std::map<Resource, std::wstring> fileDictionary;
     std::vector<GDIBitmap> gdiBitmaps;

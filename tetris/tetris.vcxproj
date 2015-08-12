@@ -121,10 +121,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BodySystem.cc" />
+    <ClCompile Include="BounceSystem.cc" />
+    <ClCompile Include="CollisionSystem.cc" />
+    <ClCompile Include="ExplosionSystem.cc" />
     <ClCompile Include="Game.cc" />
+    <ClCompile Include="GameApplication.cc" />
+    <ClCompile Include="InputSystem.cc" />
     <ClCompile Include="main.cc" />
-    <ClCompile Include="PhysicsComponent.cc" />
-    <ClCompile Include="RenderComponent.cpp" />
+    <ClCompile Include="MainMenuApplication.cc" />
+    <ClCompile Include="MainMenuGameScreen.cc" />
+    <ClCompile Include="ParticleRenderSystem.cc" />
+    <ClCompile Include="RenderSystem.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -138,6 +146,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="ExplosionSystem.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GDIBitmap.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="InstanDownEvent.h" />
