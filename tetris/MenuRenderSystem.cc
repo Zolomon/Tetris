@@ -1,0 +1,33 @@
+#include "MenuRenderSystem.h"
+#include "MenuItem.h"
+#include "Body.h"
+#include "SelectedMenuItem.h"
+
+
+MenuRenderSystem::MenuRenderSystem(std::shared_ptr<Game> game) : game(game)
+{
+	
+}
+
+
+void MenuRenderSystem::update(entityx::EntityManager& es, entityx::EventManager& events, entityx::TimeDelta dt)
+{
+	es.each<Body>([](entityx::Entity entity, Body&)
+	{
+		std::cout << "" << std::endl;
+	});
+
+	es.each<MenuItem, Body>([this, dt](entityx::Entity entity, MenuItem& item, Body& body)
+	{
+		game->DrawString(item.text, RGB(0, 0, 0), body.position.x + 1, body.position.y + 1);
+
+		game->DrawString(item.text, RGB(255, 255, 255), body.position.x, body.position.y);		
+	});
+
+	es.each<MenuItem, SelectedMenuItem, Body>([this, dt](entityx::Entity entity, MenuItem& item, SelectedMenuItem&, Body& body)
+	{
+		game->DrawString(item.text, RGB(0, 0, 0), body.position.x + 1, body.position.y + 1);
+
+		game->DrawString(item.text, RGB(255, 0, 0), body.position.x, body.position.y);
+	});
+}

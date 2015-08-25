@@ -1,11 +1,10 @@
 #pragma once
-#include "entityx/System.h"
+#include "entityx/entityx.h"
 #include "Game.h"
 
-class InputSystem : public entityx::System<InputSystem>
-{
+class MenuRenderSystem : public entityx::System<MenuRenderSystem> {
 public:
-	explicit InputSystem(std::shared_ptr<Game> game);
+	explicit MenuRenderSystem(std::shared_ptr<Game> game);
 
 	void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
 

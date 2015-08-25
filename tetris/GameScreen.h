@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 #include "Application.h"
+#include <chrono>
 
 class Game;
 class Application;
@@ -24,8 +25,8 @@ public:
 	virtual void Loading() = 0;
 	virtual void OnLoaded() = 0;*/
 	virtual void Update(const double deltaTime) = 0;
-	/*virtual void Render(const double interpolation) = 0;
-	virtual void OnUnloading() = 0;
+	virtual void Render(const double interpolation) = 0; 
+	/*virtual void OnUnloading() = 0;
 	virtual void Unloading() = 0;
 	virtual void OnUnloaded() = 0;*/
 
@@ -47,6 +48,7 @@ public:
 	void Loading() override;
 	void OnLoaded() override;*/
 	void Update(const double deltaTime) override;
+	void Render(const double deltaTime) override;
 	/*void Render(const double interpolation) override;
 	void OnUnloading() override;
 	void Unloading() override;

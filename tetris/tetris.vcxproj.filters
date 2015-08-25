@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Screens">
       <UniqueIdentifier>{af67fecd-7f8b-4791-a87a-9dd64bea1541}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Systems\menu">
+      <UniqueIdentifier>{209ad1a0-3a9c-4c17-a5c3-d340f649103e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems\menu">
+      <UniqueIdentifier>{5b4bde04-d4ad-493e-94aa-964eee01309d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\menu">
+      <UniqueIdentifier>{32dccb27-cea6-45ad-a568-dcf2d847f9ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Applications">
+      <UniqueIdentifier>{4bb3f571-9d61-46bd-9a1d-697d23c2f65e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">
@@ -69,6 +81,21 @@
     <ClCompile Include="InputSystem.cc">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystem.cc">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreSystem.cc">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnSystem.cc">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuSpawnSystem.cc">
+      <Filter>Source Files\Systems\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuRenderSystem.cc">
+      <Filter>Source Files\Systems\menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Settings.h">
@@ -87,9 +114,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GDIBitmap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
@@ -163,6 +187,27 @@
     </ClInclude>
     <ClInclude Include="GameScreen.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuSpawnSystem.h">
+      <Filter>Header Files\Systems\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuItem.h">
+      <Filter>Header Files\Components\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedMenuItem.h">
+      <Filter>Header Files\Components\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuRenderSystem.h">
+      <Filter>Header Files\Systems\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files\Applications</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuApplication.h">
+      <Filter>Header Files\Applications</Filter>
+    </ClInclude>
+    <ClInclude Include="GameApplication.h">
+      <Filter>Header Files\Applications</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #include "GameScreen.h"
+#include "MainMenuApplication.h"
 
 MainMenuGameScreen::MainMenuGameScreen(std::shared_ptr<Game> game) : GameScreen(game, std::make_shared<MainMenuApplication>(game))
 {
@@ -7,4 +8,9 @@ MainMenuGameScreen::MainMenuGameScreen(std::shared_ptr<Game> game) : GameScreen(
 
 void MainMenuGameScreen::Update(const double deltaTime) {
 	app->update(deltaTime);
+}
+
+void MainMenuGameScreen::Render(const double deltaTime)
+{
+	app->render(deltaTime);
 }

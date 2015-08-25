@@ -2,11 +2,6 @@
 
 #include "entityx/entityx.h"
 #include "glm/glm.hpp"
-#include "Settings.h"
-#include "CollisionEvent.h"
-#include "Body.h"
-#include "Collideable.h"
-#include "ScoreEvent.h"
 
 // Determines if two Collideable bodies have collided. If they have it emits a
 // CollisionEvent. This is used by ExplosionSystem to create explosion

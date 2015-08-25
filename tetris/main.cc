@@ -10,6 +10,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 std::shared_ptr<Game> game;
 
 void Update(double deltaTime, MSG* msg);
+
 void Render();
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -39,9 +40,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		);
 
 	UpdateWindow(hwnd);
+
 	ShowWindow(hwnd, nCmdShow);
 
 	game = std::make_shared<Game>();
+
 	game->game = game;
 	game->InitializeGraphics(hwnd);
 	game->Start();
@@ -53,21 +56,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	const double SEC_PER_UPDATE = 1.0 / FRAMES_PER_SEC;
 
 	auto previousTime = Settings::Window::Clock.now();
+
 	while (Settings::Window::IsRunning)
 	{
 		auto currentTime = Settings::Window::Clock.now();
 		auto deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - previousTime).count();
+
 		previousTime = currentTime;
 
 		game->Update(deltaTime);
-		//Update(deltaTime, &msg);
-		//Render();
+		game->Render(deltaTime);
 
 		auto msToNextFrame = static_cast<int>((SEC_PER_UPDATE - deltaTime) * 1000.0);
+
 		if (msToNextFrame > 0)
 		{
 			Sleep(msToNextFrame);
 		}
+		
 	}
 }
 
@@ -80,23 +86,41 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 		case 'S':
 			game->AddCommand(Command::MoveDown);
+
 			break;
 		case 'W':
 			game->AddCommand(Command::Rotate);
+
 			break;
 		case 'A':
 			game->AddCommand(Command::MoveLeft);
+
 			break;
 		case 'D':
 			game->AddCommand(Command::MoveRight);
+
 			break;
 		case ' ':
 			game->AddCommand(Command::InstantDown);
+
 			break;
 		default:
 			break;
 		}
 		break;
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+
+		HDC hdc = BeginPaint(hwnd, &ps);
+
+		EndPaint(hwnd, &ps);
+
+		return 0;
+	}
+	break;
+	case WM_ERASEBKGND:
+		return 1;
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
@@ -110,7 +134,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void Update(double deltaTime, MSG* msg)
 {
-	while (PeekMessage(msg, NULL, NULL, NULL, PM_REMOVE))
+	while (PeekMessage(msg, nullptr, NULL, NULL, PM_REMOVE))
 	{
 		if (msg->message == WM_QUIT)
 		{
@@ -118,13 +142,12 @@ void Update(double deltaTime, MSG* msg)
 		}
 
 		TranslateMessage(msg);
+
 		DispatchMessage(msg);
 	}
-
-	game->Update(deltaTime);
 }
 
-void Render()
+void Render(double deltaTime)
 {
 	game->Render(1.0f);
 }

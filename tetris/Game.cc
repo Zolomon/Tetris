@@ -1,5 +1,6 @@
 #include "Game.h"
-
+#include "Settings.h"
+#include <tchar.h>
 
 bool Game::LoadBitmapFromFile(const std::wstring filename, Resource resource)
 {
@@ -91,9 +92,13 @@ void Game::Update(const double deltaTime)
 	}
 }
 
-void Game::Render(const double interpolation)
+void Game::Render(const double deltaTime)
 {
 	BeginGraphics();
+
+	if (screens.size() > 0) {
+		screens[screens.size() - 1]->Render(deltaTime);
+	}
 
 	/*for (auto& render : renderComponents)
 	{

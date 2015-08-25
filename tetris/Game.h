@@ -1,16 +1,11 @@
 #pragma once
 
 #include <Windows.h>
-#include <algorithm>
 #include <iterator>
-#include <tchar.h>
-#include <cassert>
-#include <sstream>
 #include <vector>
 #include <memory>
 #include <map>
 
-#include "Settings.h"
 #include "Bitmap.h"
 #include "Command.h"
 #include "Resource.h"

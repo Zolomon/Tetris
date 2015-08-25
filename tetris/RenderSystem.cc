@@ -1,4 +1,8 @@
 #include "RenderSystem.h"
+#include "Body.h"
+#include "Renderable.h"
+#include "ScoreScreen.h"
+#include <tchar.h>
 
 RenderSystem::RenderSystem(std::shared_ptr<Game> target) : target(target) { }
 

@@ -1,4 +1,6 @@
 #include "ParticleRenderSystem.h"
+#include "Particle.h"
+#include "Body.h"
 
 ParticleRenderSystem::ParticleRenderSystem(std::shared_ptr<Game> target) : target(target) {}
 

@@ -1,4 +1,9 @@
 #include "CollisionSystem.h"
+#include "Settings.h"
+#include "CollisionEvent.h"
+#include "Body.h"
+#include "Collideable.h"
+#include "ScoreEvent.h"
 
 CollisionSystem::CollisionSystem() : size(Settings::Window::Size) {
 	size.x = size.x / PARTITIONS + 1;
