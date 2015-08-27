@@ -29,6 +29,11 @@ void InputSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 		case Right:
 			events.emit<MoveRightEvent>();
 			break;
+		case Esc:
+		{
+			game->PopGameScreen();
+		}
+		break;
 		}
 	}
 }

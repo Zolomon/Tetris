@@ -6,9 +6,12 @@
 #include "CollisionSystem.h"
 #include "ScoreSystem.h"
 #include "RenderSystem.h"
+#include "InputSystem.h"
 
 GameApplication::GameApplication(std::shared_ptr<Game> game) {
 	systems.add<SpawnSystem>(10);
+
+	systems.add<InputSystem>(game);
 
 	systems.add<BodySystem>();
 
@@ -24,6 +27,8 @@ GameApplication::GameApplication(std::shared_ptr<Game> game) {
 }
 
 void GameApplication::update(entityx::TimeDelta dt) {
+	systems.update<InputSystem>(dt);
+	
 	systems.update<SpawnSystem>(dt);
 
 	systems.update<BodySystem>(dt);
