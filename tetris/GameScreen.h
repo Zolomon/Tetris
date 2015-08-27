@@ -6,19 +6,16 @@
 class Game;
 class Application;
 
-enum GameScreenType
-{
-	MainMenu,
-	Play,
-	Options
-};
-
 class GameScreen
 {
 public:
 	GameScreen(std::shared_ptr<Game> game, std::shared_ptr<Application> app) : game(game), app(app)
 	{
 		
+	}
+
+	virtual ~GameScreen()
+	{
 	}
 
 	/*virtual void OnLoad() = 0;
@@ -39,18 +36,6 @@ protected:
 
 };
 
-class MainMenuGameScreen : public GameScreen
-{
-public:
-	MainMenuGameScreen(std::shared_ptr<Game> game);
 
-	/*void OnLoad() override;
-	void Loading() override;
-	void OnLoaded() override;*/
-	void Update(const double deltaTime) override;
-	void Render(const double deltaTime) override;
-	/*void Render(const double interpolation) override;
-	void OnUnloading() override;
-	void Unloading() override;
-	void OnUnloaded() override;*/
-};
+
+

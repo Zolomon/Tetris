@@ -129,8 +129,10 @@
     <ClCompile Include="GameApplication.cc" />
     <ClCompile Include="InputSystem.cc" />
     <ClCompile Include="main.cc" />
+    <ClCompile Include="MainGameScreen.cc" />
     <ClCompile Include="MainMenuApplication.cc" />
     <ClCompile Include="MainMenuGameScreen.cc" />
+    <ClCompile Include="MenuInputSystem.cc" />
     <ClCompile Include="MenuRenderSystem.cc" />
     <ClCompile Include="MenuSpawnSystem.cc" />
     <ClCompile Include="ParticleRenderSystem.cc" />
@@ -153,10 +155,14 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameApplication.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="GameScreenType.h" />
     <ClInclude Include="GDIBitmap.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="InstanDownEvent.h" />
+    <ClInclude Include="MainGameScreen.h" />
     <ClInclude Include="MainMenuApplication.h" />
+    <ClInclude Include="MainMenuGameScreen.h" />
+    <ClInclude Include="MenuInputSystem.h" />
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="MenuRenderSystem.h" />
     <ClInclude Include="MenuSpawnSystem.h" />

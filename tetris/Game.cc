@@ -1,6 +1,9 @@
 #include "Game.h"
 #include "Settings.h"
 #include <tchar.h>
+#include "MainMenuGameScreen.h"
+#include "MainGameScreen.h"
+#include "GameScreenType.h"
 
 bool Game::LoadBitmapFromFile(const std::wstring filename, Resource resource)
 {
@@ -173,7 +176,9 @@ void Game::Start()
 	//physicsComponents.push_back(redBlockPhysicsComponent);
 	//renderComponents.push_back(redBlockRenderComponent);
 	gameScreenDictionary[GameScreenType::MainMenu] = std::make_shared<MainMenuGameScreen>(game);
-	screens.push_back(gameScreenDictionary[GameScreenType::MainMenu]);
+	gameScreenDictionary[GameScreenType::Play] = std::make_shared<MainGameScreen>(game);
+	
+	PushGameScreen(GameScreenType::MainMenu);
 }
 
 void Game::ProcessInput(Command command)
@@ -192,6 +197,18 @@ void Game::AddCommand(Command command)
 {
 	commandsThisFrame.push_back(command);
 }
+
+void Game::PushGameScreen(GameScreenType gameScreenType)
+{
+	this->screens.push_back(gameScreenDictionary[gameScreenType]);
+}
+
+void Game::PopGameScreen()
+{
+	this->screens.pop_back();
+}
+
+
 
 
 

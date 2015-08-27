@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Applications">
       <UniqueIdentifier>{4bb3f571-9d61-46bd-9a1d-697d23c2f65e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Screens">
+      <UniqueIdentifier>{25b43a95-4011-45f0-ba96-c2559e21b17c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">
@@ -95,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="MenuRenderSystem.cc">
       <Filter>Source Files\Systems\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuInputSystem.cc">
+      <Filter>Source Files\Systems\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGameScreen.cc">
+      <Filter>Source Files\Screens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,9 +194,6 @@
     <ClInclude Include="MoveRightEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="GameScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MenuSpawnSystem.h">
       <Filter>Header Files\Systems\menu</Filter>
     </ClInclude>
@@ -208,6 +214,21 @@
     </ClInclude>
     <ClInclude Include="GameApplication.h">
       <Filter>Header Files\Applications</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuInputSystem.h">
+      <Filter>Header Files\Systems\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGameScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuGameScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreenType.h">
+      <Filter>Header Files\Screens</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

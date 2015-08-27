@@ -2,9 +2,20 @@
 
 enum Command
 {
-    Rotate,
+    /*Rotate,
     MoveDown,
     InstantDown,
     MoveLeft,
     MoveRight,
+
+	MenuUp,
+	MenuDown,
+	MenuEnter*/
+	Up,
+	Down,
+	Left,
+	Right,
+	Enter,
+	Esc,
+	Space
 };

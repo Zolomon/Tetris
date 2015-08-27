@@ -9,9 +9,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 std::shared_ptr<Game> game;
 
-void Update(double deltaTime, MSG* msg);
+void ProcessInput(HWND hwnd, MSG* msg);
 
-void Render();
+void Update(double deltaTime);
+
+void Render(double deltaTime);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -28,7 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	HWND hwnd = CreateWindow(
 		className,
 		windowName,
-		WS_OVERLAPPEDWINDOW,
+		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 		static_cast<int>(Settings::Window::StartPosition.x),
 		static_cast<int>(Settings::Window::StartPosition.y),
 		static_cast<int>(Settings::Window::Size.x),
@@ -50,7 +52,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->Start();
 
 	MSG msg = { 0 };
-	
+
 
 	const double FRAMES_PER_SEC = 60.0;
 	const double SEC_PER_UPDATE = 1.0 / FRAMES_PER_SEC;
@@ -64,8 +66,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		previousTime = currentTime;
 
-		game->Update(deltaTime);
-		game->Render(deltaTime);
+		ProcessInput(hwnd, &msg);
+
+		Update(deltaTime);
+
+		Render(deltaTime);
 
 		auto msToNextFrame = static_cast<int>((SEC_PER_UPDATE - deltaTime) * 1000.0);
 
@@ -73,7 +78,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			Sleep(msToNextFrame);
 		}
-		
 	}
 }
 
@@ -85,69 +89,72 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case 'S':
-			game->AddCommand(Command::MoveDown);
+			game->AddCommand(Command::Down);
 
 			break;
 		case 'W':
-			game->AddCommand(Command::Rotate);
+			game->AddCommand(Command::Up);
 
 			break;
 		case 'A':
-			game->AddCommand(Command::MoveLeft);
+			game->AddCommand(Command::Left);
 
 			break;
 		case 'D':
-			game->AddCommand(Command::MoveRight);
+			game->AddCommand(Command::Right);
 
 			break;
 		case ' ':
-			game->AddCommand(Command::InstantDown);
+			game->AddCommand(Command::Space);
 
 			break;
 		default:
 			break;
 		}
 		break;
-	case WM_PAINT:
+	case WM_CHAR:
 	{
-		PAINTSTRUCT ps;
-
-		HDC hdc = BeginPaint(hwnd, &ps);
-
-		EndPaint(hwnd, &ps);
-
-		return 0;
+		if (wParam == VK_ESCAPE)
+		{
+			//PostQuitMessage(0);
+			game->AddCommand(Command::Esc);
+			//return 0;
+		}
+		else if (wParam == VK_RETURN)
+		{
+			game->AddCommand(Command::Enter);
+		}
 	}
-	break;
 	case WM_ERASEBKGND:
 		return 1;
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
-		break;
-	default: 
+	default:
 		break;
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-void Update(double deltaTime, MSG* msg)
+void ProcessInput(HWND hwnd, MSG* msg)
 {
-	while (PeekMessage(msg, nullptr, NULL, NULL, PM_REMOVE))
-	{
-		if (msg->message == WM_QUIT)
-		{
+	while (PeekMessage(msg, NULL, NULL, NULL, PM_REMOVE)) {
+		if (msg->message == WM_QUIT) {
 			Settings::Window::IsRunning = false;
 		}
 
 		TranslateMessage(msg);
-
 		DispatchMessage(msg);
 	}
 }
 
+void Update(double deltaTime)
+{
+	game->Update(deltaTime);
+}
+
 void Render(double deltaTime)
 {
-	game->Render(1.0f);
+	game->Render(deltaTime);
 }

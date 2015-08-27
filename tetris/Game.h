@@ -38,6 +38,9 @@ public:
 	std::vector<Command> GetCommandsThisFrame();
 	void AddCommand(Command command);
 
+	void PushGameScreen(GameScreenType gameScreenType);
+	void PopGameScreen();
+
     // GDI-related stuff
     HWND window;
     HDC backbufferDC;

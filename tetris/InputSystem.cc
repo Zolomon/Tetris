@@ -14,19 +14,19 @@ void InputSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 	{
 		switch (command)
 		{
-		case Rotate:
+		case Up:
 			events.emit<RotateEvent>();
 			break;
-		case InstantDown:
+		case Space:
 			events.emit<InstantDownEvent>();
 			break;
-		case MoveDown:
+		case Down:
 			events.emit<MoveDownEvent>();
 			break;
-		case MoveLeft:
+		case Left:
 			events.emit<MoveLeftEvent>();
 			break;
-		case MoveRight:
+		case Right:
 			events.emit<MoveRightEvent>();
 			break;
 		}
