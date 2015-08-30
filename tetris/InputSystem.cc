@@ -34,6 +34,8 @@ void InputSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 			game->PopGameScreen();
 		}
 		break;
+		default:
+			break;
 		}
 	}
 }

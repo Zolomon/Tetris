@@ -7,9 +7,12 @@
 #include "ScoreSystem.h"
 #include "RenderSystem.h"
 #include "InputSystem.h"
+#include "BoardSystem.h"
 
 GameApplication::GameApplication(std::shared_ptr<Game> game) {
 	systems.add<SpawnSystem>(10);
+
+	systems.add<BoardSystem>(game);
 
 	systems.add<InputSystem>(game);
 
@@ -30,6 +33,8 @@ void GameApplication::update(entityx::TimeDelta dt) {
 	systems.update<InputSystem>(dt);
 	
 	systems.update<SpawnSystem>(dt);
+
+	systems.update<BoardSystem>(dt);
 
 	systems.update<BodySystem>(dt);
 

@@ -56,6 +56,9 @@ void Game::InitializeGraphics(HWND window)
 
 	// Load assets
 	LoadBitmapFromFile(std::wstring(_T("redblock.bmp")), Resource::RedBlock);
+	LoadBitmapFromFile(std::wstring(_T("blueblock.bmp")), Resource::BlueBlock);
+	LoadBitmapFromFile(std::wstring(_T("background.bmp")), Resource::Background);
+	LoadBitmapFromFile(std::wstring(_T("blackblock.bmp")), Resource::BlackBlock);
 
 	//this->player = std::make_shared<Player>(0, 0);
 	//player->resource = Resource::PlayerTile;

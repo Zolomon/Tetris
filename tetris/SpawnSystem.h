@@ -17,4 +17,6 @@ public:
 private:
 	glm::vec2 size;
 	int count;
+	bool isBoardCreated;
+	bool isPieceCreated;
 };

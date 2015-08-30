@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoardSystem.cc" />
     <ClCompile Include="BodySystem.cc" />
     <ClCompile Include="BounceSystem.cc" />
     <ClCompile Include="CollisionSystem.cc" />
@@ -137,6 +138,7 @@
     <ClCompile Include="MenuSpawnSystem.cc" />
     <ClCompile Include="ParticleRenderSystem.cc" />
     <ClCompile Include="ParticleSystem.cc" />
+    <ClCompile Include="Piece.cc" />
     <ClCompile Include="RenderSystem.cc" />
     <ClCompile Include="ScoreSystem.cc" />
     <ClCompile Include="SpawnSystem.cc" />
@@ -144,9 +146,12 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardSystem.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="BodySystem.h" />
     <ClInclude Include="BounceSystem.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="Collideable.h" />
     <ClInclude Include="CollisionEvent.h" />
     <ClInclude Include="CollisionSystem.h" />
@@ -172,6 +177,8 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleRenderSystem.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Piece.h" />
+    <ClInclude Include="PieceType.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="Resource.h" />

@@ -12,4 +12,14 @@ namespace Settings
         static std::chrono::high_resolution_clock Clock;
         static bool IsRunning = true;
     };
+
+	namespace Game
+	{
+		static const int PieceSize = 4;
+		static const glm::vec2 TileSize(16.0, 16.0);
+		static const glm::vec2 TileOffset(2, 2);
+		static const glm::vec2 BoardOffset(16, 16);
+		static const int Columns = 10;
+		static const int Rows = 20;
+	};
 };

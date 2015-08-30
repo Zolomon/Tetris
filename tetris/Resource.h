@@ -8,5 +8,6 @@ enum Resource
     GreenBlock,
     CyanBlock,
     MagentaBlock,
-    Background
+    Background,
+	BlackBlock
 };
