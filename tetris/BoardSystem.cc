@@ -194,18 +194,26 @@ void BoardSystem::receive(const RotateEvent& rotateEvent)
 		auto preTop = distanceToTopPieceEdge(p);
 		auto preBot = distanceToBottomPieceEdge(p);
 		p->Rotate();
-
-		if (p->position.x < 0)
-		{
-			p->position.x += preLeft;
+		if (isMergable(*p)) {
+			if (p->position.x < 0)
+			{
+				p->position.x += preLeft;
+			}
+			else if (p->position.x + preRight + preLeft >= Settings::Game::Columns - 1)
+			{
+				p->position.x -= preRight;
+			}
+			if (p->position.y + preBot + preTop >= Settings::Game::Rows - 1)
+			{
+				p->position.y -= preBot;
+			}
 		}
-		else if (p->position.x + preRight + preLeft >= Settings::Game::Columns - 1)
+		else
 		{
-			p->position.x -= preRight;
-		}
-		if (p->position.y + preBot + preTop >= Settings::Game::Rows - 1)
-		{
-			p->position.y -= preBot;
+			// TODO: Ugly hack, revert rotation by rotating another 270 degrees.
+			p->Rotate();
+			p->Rotate();
+			p->Rotate();
 		}
 	}
 }

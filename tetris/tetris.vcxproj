@@ -142,6 +142,7 @@
     <ClCompile Include="RenderSystem.cc" />
     <ClCompile Include="ScoreSystem.cc" />
     <ClCompile Include="SpawnSystem.cc" />
+    <ClCompile Include="Utils.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />

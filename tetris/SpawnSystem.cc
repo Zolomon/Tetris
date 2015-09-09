@@ -13,15 +13,16 @@ void SpawnSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 		isBoardCreated = true;
 	}
 
-	if (!isPieceCreated)
+	int pieceCount = 0;
+	es.each<Piece>([&](entityx::Entity entity, Piece&piece) { ++pieceCount;	});
+
+	if (pieceCount == 0)
 	{
 		entityx::Entity e = es.create();
-		e.assign<Piece>(PieceType::O);
-		isPieceCreated = true;
+		e.assign<Piece>(Utils::RandomPieceType());
 	}
-	
+
 	bool scoreScreenExists = false;
-	entityx::ComponentHandle<ScoreScreen> scoreScreen;
 	es.each<ScoreScreen>([&](entityx::Entity entity, ScoreScreen&) { scoreScreenExists = true;});
 
 	if (!scoreScreenExists)
