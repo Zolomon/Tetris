@@ -19,16 +19,22 @@ BoardSystem::BoardSystem(std::shared_ptr<Game> target) : target(target)
 
 bool BoardSystem::isMergable(Piece& piece)
 {
-	/*Piece copy = piece;
-	for (int y = 0; y < copy.size; y++)
+	for (int y = 0; y < piece.size; y++)
 	{
-		for (int x = 0; x < copy.size; x++)
+		for (int x = 0; x < piece.size; x++)
 		{
-
+			// TODO: Should never be possible to go out of bounds
+			int xx = (piece.position.x + x);
+			int yy = (piece.position.y + y);
+			auto boardType = this->board.component<Board>()->cells[xx + yy * Settings::Game::Columns].type;
+			auto cellType = piece.cellsInPiece[x + y * piece.size].type;
+			if (boardType != 0 && cellType != 0)
+			{
+				return false;
+			}
 		}
 	}
 
-	return false;*/
 	return true;
 }
 
@@ -99,81 +105,108 @@ int BoardSystem::distanceToBottomPieceEdge(Piece* p)
 
 int BoardSystem::distanceToLeftPieceEdge(Piece* p)
 {
+	int minX = std::numeric_limits<int>::max();
+
 	for (int y = 0; y < p->size; y++)
 	{
 		for (int x = 0; x < p->size; x++)
 		{
 			if (p->cellsInPiece[x + y*p->size].type != 0)
 			{
-				return x;
+				if (x < minX) {
+					minX = x;
+				}
 			}
 		}
 	}
-	assert(false);
-	return -1;
+	return minX;
 }
 
 int BoardSystem::distanceToRightPieceEdge(Piece* p)
 {
+	int maxX = std::numeric_limits<int>::max();
 	for (int y = p->size - 1; y >= 0; y--)
 	{
 		for (int x = p->size - 1; x >= 0; x--)
 		{
 			if (p->cellsInPiece[x + y*p->size].type != 0)
 			{
-				return p->size - 1 - x;
+				if (p->size - 1 - x < maxX)
+				{
+					maxX = p->size - 1 - x;
+				}
 			}
 		}
 	}
-	assert(false);
-	return -1;
+	return maxX;
 }
 
 void BoardSystem::receive(const MoveLeftEvent& moveLeft)
 {
-	auto smallestX = distanceToLeftPieceEdge(piece.component<Piece>().get());
-	piece.component<Piece>()->position.x = Utils::clamp(piece.component<Piece>()->position.x - 1, -smallestX, Settings::Game::Columns);
+	auto p = piece.component<Piece>().get();
+	auto smallestX = distanceToLeftPieceEdge(p);
+	auto preX = p->position.x;
+	p->position.x = Utils::clamp(p->position.x - 1, -smallestX, Settings::Game::Columns);
+	if (!isMergable(*p))
+	{
+		p->position.x = preX;
+	}
 }
 
 void BoardSystem::receive(const MoveRightEvent& moveRight)
 {
 	auto p = piece.component<Piece>().get();
 	auto largestX = distanceToRightPieceEdge(p);
+	auto preX = p->position.x;
 	p->position.x = Utils::clamp(p->position.x + 1, 0, Settings::Game::Columns - (p->size - largestX));
+	if (!isMergable(*p))
+	{
+		p->position.x = preX;
+	}
 }
 
 void BoardSystem::receive(const MoveDownEvent& moveDownEvent)
 {
 	auto p = piece.component<Piece>().get();
 	auto largestY = distanceToBottomPieceEdge(p);
+	auto preY = p->position.y;
 	p->position.y = Utils::clamp(p->position.y + 1, 0, Settings::Game::Rows - (p->size - largestY));
+	if (!isMergable(*p))
+	{
+		p->position.y = preY;
+	}
 }
 
 void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 {
 	Piece *p = piece.component<Piece>().get();
 	merge(*p);
+	p->position.x = 0;
+	p->position.y = 0;
 }
 
 void BoardSystem::receive(const RotateEvent& rotateEvent)
 {
 	auto p = piece.component<Piece>().get();
-	auto preLeft = distanceToLeftPieceEdge(p);
-	auto preRight = distanceToRightPieceEdge(p);
-	auto preTop = distanceToTopPieceEdge(p);
-	auto preBot = distanceToBottomPieceEdge(p);
-	p->Rotate();
-	if (p->position.x < 0)
-	{
-		p->position.x += preLeft;
-	}
-	else if (p->position.x + preRight + preLeft > Settings::Game::Columns - 1)
-	{
-		p->position.x -= preRight;
-	}
-	if (p->position.y + preBot + preTop > Settings::Game::Rows - 1)
-	{
-		p->position.y -= preBot;
+	if (p->type != PieceType::O) { // Ugly hack, should handle properly instead
+		auto preLeft = distanceToLeftPieceEdge(p);
+		auto preRight = distanceToRightPieceEdge(p);
+		auto preTop = distanceToTopPieceEdge(p);
+		auto preBot = distanceToBottomPieceEdge(p);
+		p->Rotate();
+
+		if (p->position.x < 0)
+		{
+			p->position.x += preLeft;
+		}
+		else if (p->position.x + preRight + preLeft >= Settings::Game::Columns - 1)
+		{
+			p->position.x -= preRight;
+		}
+		if (p->position.y + preBot + preTop >= Settings::Game::Rows - 1)
+		{
+			p->position.y -= preBot;
+		}
 	}
 }
 

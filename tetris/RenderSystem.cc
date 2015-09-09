@@ -51,10 +51,7 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 				auto drawX = (piece.position.x + x) * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) + Settings::Game::BoardOffset.x;
 				auto drawY = (piece.position.y + y) * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) + Settings::Game::BoardOffset.y;
 				if (piece.cellsInPiece[x + y * piece.size].type != 0) {
-					
-
 					this->target->DrawBitmap(target->bitmapDictionary[Resource::RedBlock], drawX, drawY);
-					
 				}
 
 				std::wstring nbr = std::to_wstring(x + y * piece.size);

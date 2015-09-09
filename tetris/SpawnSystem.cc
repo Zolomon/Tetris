@@ -16,14 +16,10 @@ void SpawnSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 	if (!isPieceCreated)
 	{
 		entityx::Entity e = es.create();
-		e.assign<Piece>(PieceType::I);
+		e.assign<Piece>(PieceType::O);
 		isPieceCreated = true;
 	}
-
-	/*int c = 0;
-	entityx::ComponentHandle<Collideable> collideable;
-	es.each<Collideable>([&](entityx::Entity entity, Collideable&) { ++c; });*/
-
+	
 	bool scoreScreenExists = false;
 	entityx::ComponentHandle<ScoreScreen> scoreScreen;
 	es.each<ScoreScreen>([&](entityx::Entity entity, ScoreScreen&) { scoreScreenExists = true;});
