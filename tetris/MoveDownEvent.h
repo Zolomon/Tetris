@@ -1,7 +1,11 @@
 #pragma once
 
+#include "entityx/entityx.h"
 
-struct MoveDownEvent
+struct MoveDownEvent : entityx::Event<MoveDownEvent>
 {
-	MoveDownEvent() {}
+	//MoveDownEvent() : es(entityx::EventManager()) {}
+	MoveDownEvent(entityx::EntityManager &es) : es(es) {}
+
+	entityx::EntityManager &es;
 };

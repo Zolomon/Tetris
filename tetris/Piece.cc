@@ -1,91 +1,16 @@
 #include "Piece.h"
 
-Piece::Piece(PieceType type) : position(0, 0), type(type)
+Piece::Piece(PieceType type) : position(0, 0), type(type), isDestroyed(false)
 {
-	switch (type)
-	{
-	case PieceType::I:
-	{
-		cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(1),Cell(0),Cell(0),
-			Cell(0),Cell(1),Cell(0),Cell(0),
-			Cell(0),Cell(1),Cell(0),Cell(0),
-			Cell(0),Cell(1),Cell(0),Cell(0),
-		};
-		size = 4;
-	}
-	break;
-	case PieceType::J:
-	{
-		cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(0),
-			Cell(1),Cell(1),Cell(0),
-		};
-		size = 3;
-	}
-	break;
-	case PieceType::L:
-	{
-		cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(1)
-		};
-
-		size =3;
-	}
-	break;
-	case PieceType::O:
-	{
-		cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(0),Cell(0),Cell(0),
-			Cell(0),Cell(1),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(1),Cell(0),
-			Cell(0),Cell(0),Cell(0),Cell(0),
-		};
-		size = 4;
-	}
-	break;
-	case PieceType::S:
-	{
-		cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(0),Cell(0),
-			Cell(0),Cell(1),Cell(1),
-			Cell(1),Cell(1),Cell(0),
-		};
-		size = 3;
-	}
-	break;
-	case PieceType::Z:
-	{
-		cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(0),Cell(0),
-			Cell(1),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(1),
-		};
-		size = 3;
-	}
-	break;
-	case PieceType::T:
-	{
-		cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(0),Cell(0),
-			Cell(1),Cell(1),Cell(1),
-			Cell(0),Cell(1),Cell(0),
-		};
-		size = 3;
-	}
-	break;
-	}
+	SetupPiece(*this);
 }
 
-Piece::Piece(const Piece& other) : position(other.position), type(other.type), cellsInPiece(other.cellsInPiece)
+Piece::Piece(const Piece& other) : position(other.position), type(other.type), cellsInPiece(other.cellsInPiece), isDestroyed(other.isDestroyed)
 {
 
 }
 
-Piece::Piece(Piece&& other) noexcept : position(other.position), type(other.type), cellsInPiece(other.cellsInPiece)
+Piece::Piece(Piece&& other) noexcept : position(other.position), type(other.type), cellsInPiece(other.cellsInPiece), isDestroyed(other.isDestroyed)
 {
 }
 
@@ -101,7 +26,88 @@ Piece& Piece::operator=(Piece&& other) noexcept
 	std::swap(position, other.position);
 	std::swap(type, other.type);
 	std::swap(cellsInPiece, other.cellsInPiece);
+	std::swap(isDestroyed, other.isDestroyed);
 	return *this;
+}
+
+void Piece::SetupPiece(Piece& piece)
+{
+	switch (piece.type)
+	{
+	case PieceType::I:
+	{
+		piece.cellsInPiece = std::vector<Cell>{
+			Cell(0),Cell(1),Cell(0),Cell(0),
+			Cell(0),Cell(1),Cell(0),Cell(0),
+			Cell(0),Cell(1),Cell(0),Cell(0),
+			Cell(0),Cell(1),Cell(0),Cell(0),
+		};
+		piece.size = 4;
+	}
+	break;
+	case PieceType::J:
+	{
+		piece.cellsInPiece = std::vector<Cell>{
+			Cell(0),Cell(1),Cell(0),
+			Cell(0),Cell(1),Cell(0),
+			Cell(1),Cell(1),Cell(0),
+		};
+		piece.size = 3;
+	}
+	break;
+	case PieceType::L:
+	{
+		piece.cellsInPiece = std::vector<Cell>{
+			Cell(0),Cell(1),Cell(0),
+			Cell(0),Cell(1),Cell(0),
+			Cell(0),Cell(1),Cell(1)
+		};
+
+		piece.size = 3;
+	}
+	break;
+	case PieceType::O:
+	{
+		piece.cellsInPiece = std::vector<Cell>{
+			Cell(0),Cell(0),Cell(0),Cell(0),
+			Cell(0),Cell(1),Cell(1),Cell(0),
+			Cell(0),Cell(1),Cell(1),Cell(0),
+			Cell(0),Cell(0),Cell(0),Cell(0),
+		};
+		piece.size = 4;
+	}
+	break;
+	case PieceType::S:
+	{
+		piece.cellsInPiece = std::vector<Cell>{
+			Cell(0),Cell(0),Cell(0),
+			Cell(0),Cell(1),Cell(1),
+			Cell(1),Cell(1),Cell(0),
+		};
+		piece.size = 3;
+	}
+	break;
+	case PieceType::Z:
+	{
+		piece.cellsInPiece = std::vector<Cell>{
+			Cell(0),Cell(0),Cell(0),
+			Cell(1),Cell(1),Cell(0),
+			Cell(0),Cell(1),Cell(1),
+		};
+		piece.size = 3;
+	}
+	break;
+	case PieceType::T:
+	{
+		piece.cellsInPiece = std::vector<Cell>{
+			Cell(0),Cell(0),Cell(0),
+			Cell(1),Cell(1),Cell(1),
+			Cell(0),Cell(1),Cell(0),
+		};
+		piece.size = 3;
+	}
+	break;
+	}
 }
 
 void Piece::Rotate()

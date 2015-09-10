@@ -8,6 +8,7 @@
 #include "MoveDownEvent.h"
 #include "Game.h"
 #include <unordered_set>
+#include "PieceSpawnEvent.h"
 
 struct Piece;
 
@@ -35,9 +36,15 @@ public:
 
 	void receive(const InstantDownEvent &instantDownEvent);
 
+	void receive(const PieceSpawnEvent &pieceSpawnEvent);
+
 	void merge(Piece& piece);
 
 	std::shared_ptr<Game> target;
 	entityx::Entity piece;
 	entityx::Entity board;
+	entityx::EventManager *events;
+
+	double pieceMoveDownStartTime;
+	double currentTime;
 };

@@ -1,6 +1,7 @@
 #include "SpawnSystem.h"
 #include "Board.h"
 #include "Piece.h"
+#include "PieceSpawnEvent.h"
 
 SpawnSystem::SpawnSystem(int count) : size(Settings::Window::Size), count(count), isBoardCreated(false), isPieceCreated(false)
 {
@@ -20,6 +21,7 @@ void SpawnSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 	{
 		entityx::Entity e = es.create();
 		e.assign<Piece>(Utils::RandomPieceType());
+		events.emit<PieceSpawnEvent>();
 	}
 
 	bool scoreScreenExists = false;

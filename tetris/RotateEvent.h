@@ -1,6 +1,8 @@
 #pragma once
 
-struct RotateEvent
+#include "entityx/entityx.h"
+
+struct RotateEvent : entityx::Event<RotateEvent>
 {
 	RotateEvent() {}
 };

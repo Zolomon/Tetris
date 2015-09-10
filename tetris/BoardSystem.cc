@@ -12,9 +12,8 @@ void BoardSystem::configure(entityx::EventManager& events)
 	events.subscribe<RotateEvent>(*this);
 }
 
-BoardSystem::BoardSystem(std::shared_ptr<Game> target) : target(target)
+BoardSystem::BoardSystem(std::shared_ptr<Game> target) : target(target), currentTime(0), pieceMoveDownStartTime(0)
 {
-
 }
 
 bool BoardSystem::isMergable(Piece& piece)
@@ -26,7 +25,12 @@ bool BoardSystem::isMergable(Piece& piece)
 			// TODO: Should never be possible to go out of bounds
 			int xx = (piece.position.x + x);
 			int yy = (piece.position.y + y);
-			auto boardType = this->board.component<Board>()->cells[xx + yy * Settings::Game::Columns].type;
+			auto index = xx + yy * Settings::Game::Columns;
+			if (index >= this->board.component<Board>()->cells.size())
+			{
+				continue;
+			}
+			auto boardType = this->board.component<Board>()->cells[index].type;
 			auto cellType = piece.cellsInPiece[x + y * piece.size].type;
 			if (boardType != 0 && cellType != 0)
 			{
@@ -50,7 +54,12 @@ void BoardSystem::merge(Piece& piece)
 				{
 					auto xx = piece.position.x + x;
 					auto yy = piece.position.y + y;
-					board.component<Board>()->cells[xx + yy * Settings::Game::Columns] = Cell(1);
+					auto index = xx + yy * Settings::Game::Columns;
+					if (index >= board.component<Board>()->cells.size())
+					{
+						continue;
+					}
+					board.component<Board>()->cells[index] = Cell(1);
 				}
 			}
 		}
@@ -69,6 +78,25 @@ void BoardSystem::update(entityx::EntityManager& es, entityx::EventManager& even
 	{
 		board = entity;
 	});
+
+	currentTime += dt;
+
+	auto p = piece.component<Piece>();
+	if (p->isDestroyed)
+	{
+		p->position.y = 0;
+		p->isDestroyed = false;
+		p->type = Utils::RandomPieceType();
+		Piece::SetupPiece(*p.get());
+	}
+
+	auto movePieceDownDiff = pieceMoveDownStartTime + Settings::Game::MovePieceDownTime - currentTime;
+	
+	if (movePieceDownDiff <= 0)
+	{
+		events.emit<MoveDownEvent>(es);
+		pieceMoveDownStartTime = currentTime;
+	}
 }
 
 int BoardSystem::distanceToTopPieceEdge(Piece* p)
@@ -174,7 +202,16 @@ void BoardSystem::receive(const MoveDownEvent& moveDownEvent)
 	if (!isMergable(*p))
 	{
 		p->position.y = preY;
+		merge(*p);
+		p->isDestroyed = true;
 	}
+	// If we can't go down any further
+	if (p->position.y + p->size - distanceToBottomPieceEdge(p) - 1 == Settings::Game::Rows - 1)
+	{
+		merge(*p);
+		p->isDestroyed = true;
+	}
+	this->pieceMoveDownStartTime = this->currentTime;
 }
 
 void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
@@ -183,6 +220,11 @@ void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 	merge(*p);
 	p->position.x = 0;
 	p->position.y = 0;
+}
+
+void BoardSystem::receive(const PieceSpawnEvent& pieceSpawnEvent)
+{
+	pieceMoveDownStartTime = currentTime;
 }
 
 void BoardSystem::receive(const RotateEvent& rotateEvent)

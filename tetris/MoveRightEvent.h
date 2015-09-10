@@ -1,6 +1,8 @@
 #pragma once
 
-struct MoveRightEvent
+#include "entityx/entityx.h"
+
+struct MoveRightEvent : entityx::Event<MoveRightEvent>
 {
 	MoveRightEvent() {}
 };

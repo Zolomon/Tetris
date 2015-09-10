@@ -21,7 +21,7 @@ void InputSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 			events.emit<InstantDownEvent>();
 			break;
 		case Down:
-			events.emit<MoveDownEvent>();
+			events.emit<MoveDownEvent>(es);
 			break;
 		case Left:
 			events.emit<MoveLeftEvent>();

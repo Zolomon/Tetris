@@ -21,5 +21,6 @@ namespace Settings
 		static const glm::vec2 BoardOffset(16, 16);
 		static const int Columns = 10;
 		static const int Rows = 20;
+		static double MovePieceDownTime = 1.25;
 	};
 };

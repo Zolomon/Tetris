@@ -1,6 +1,8 @@
 #pragma once
 
-struct InstantDownEvent
+#include "entityx/entityx.h"
+
+struct InstantDownEvent : entityx::Event<InstantDownEvent>
 {
 	InstantDownEvent() {}
 };
