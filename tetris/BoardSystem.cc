@@ -99,6 +99,45 @@ void BoardSystem::update(entityx::EntityManager& es, entityx::EventManager& even
 		events.emit<MoveDownEvent>(es);
 		pieceMoveDownStartTime = currentTime;
 	}
+
+	std::vector<int> fullRows = getFullRows();
+
+	for (auto row : fullRows)
+	{
+		for (int y = row; y > 1; y--)
+		{
+			for (int x = 0; x < Settings::Game::Columns; x++)
+			{
+				//if (board.component<Board>()->cells[x + (y - 1) * Settings::Game::Columns].type != 0) {
+				board.component<Board>()->cells[x + y * Settings::Game::Columns] =
+					board.component<Board>()->cells[x + (y - 1) * Settings::Game::Columns];
+				//}
+			}
+		}
+	}
+
+	/*for (int y = Settings::Game::Rows - 1; y >= 4; y++)
+	{
+		
+	}*/
+}
+
+std::vector<int> BoardSystem::getFullRows()
+{
+	std::vector<int> fullRows;
+	for (int y = 0; y < Settings::Game::Rows; y++)
+	{
+		bool isFull = true;
+		for (int x = 0; x < Settings::Game::Columns; x++)
+		{
+			isFull &= board.component<Board>()->cells[x + y * Settings::Game::Columns].type != 0;
+		}
+		if (isFull)
+		{
+			fullRows.push_back(y);
+		}
+	}
+	return fullRows;
 }
 
 int BoardSystem::distanceToTopPieceEdge(Piece* p)

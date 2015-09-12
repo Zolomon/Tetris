@@ -29,13 +29,13 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 					y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) + 
 							Settings::Game::BoardOffset.y);
 
-				std::wstring nbr = std::to_wstring(x + y * Settings::Game::Columns);
+				/*std::wstring nbr = std::to_wstring(x + y * Settings::Game::Columns);
 				this->target->DrawString(nbr, RGB(0, 0, 0), x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
 					Settings::Game::BoardOffset.x, y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) +
 					Settings::Game::BoardOffset.y);
 				this->target->DrawString(nbr, RGB(255, 255, 255), x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
 					Settings::Game::BoardOffset.x - 1, y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) +
-					Settings::Game::BoardOffset.y - 1);
+					Settings::Game::BoardOffset.y - 1);*/
 			}
 		}
 	});
@@ -55,9 +55,9 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 						drawX, drawY);
 				}
 
-				std::wstring nbr = std::to_wstring(x + y * piece.size);
+				/*std::wstring nbr = std::to_wstring(x + y * piece.size);
 				this->target->DrawString(nbr, RGB(0, 0, 0), drawX, drawY);
-				this->target->DrawString(nbr, RGB(255, 255, 255), drawX - 1, drawY - 1);
+				this->target->DrawString(nbr, RGB(255, 255, 255), drawX - 1, drawY - 1);*/
 			}
 		}
 	});
