@@ -222,55 +222,9 @@ void BoardSystem::receive(const MoveDownEvent& moveDownEvent)
 void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 {
 	Piece *p = piece.component<Piece>().get();
-	//	int maxY = Settings::Game::Rows;
-	//	// 
-	//	for (int y = p->position.y + p->size - distanceToBottomPieceEdge(p); y < Settings::Game::Rows; y++)
-	//	{
-	//		// Only check the columns where we actually have pieces, projected downards.
-	//		for (int x = p->position.x + distanceToLeftPieceEdge(p); x < p->position.x + p->size - distanceToRightPieceEdge(p); x++)
-	//		{
-	//			if (board.component<Board>()->cells[x + y * Settings::Game::Columns].type != 0)
-	//			{
-	//				maxY = y;
-	//				goto breakLoop;
-	//			}
-	//		}
-	//	}
-	//breakLoop:
-	//	bool isCollision = false;
-	//	int increase = 0;
-	//	while(!isCollision)
-	//	{
-	//		for (int y = p->position.y + distanceToTopPieceEdge(p), yy = distanceToTopPieceEdge(p); y < p->position.y + p->size - distanceToBottomPieceEdge(p); y++, yy++)
-	//		{
-	//			// Only check the columns where we actually have pieces, projected downards.
-	//			for (int x = p->position.x + distanceToLeftPieceEdge(p), xx = distanceToLeftPieceEdge(p); x < p->position.x + p->size - distanceToRightPieceEdge(p); x++, xx++)
-	//			{
-	//				auto boardIndex = x + y * Settings::Game::Columns;
-	//				auto cellIndex = xx + yy * p->size;
-	//				if (board.component<Board>()->cells[boardIndex].type != 0 && 
-	//					p->cellsInPiece[cellIndex].type != 0)
-	//				{
-	//					isCollision = true;
-	//					//increase++;
-	//					//p->position.y++;
-	//					//goto breakLoop2;
-	//				}
-	//			}
-	//		}
-	//		//increase++;
-	//		p->position.y++;
-	//		if (p->position.y + p->size - distanceToBottomPieceEdge(p) > Settings::Game::Rows - 1)
-	//		{
-	//			break;
-	//		}
-	//	}
-	//breakLoop2:
-	//	p->position.y = maxY - p->size + distanceToBottomPieceEdge(p) + (isCollision ? 1 : 0);
 	int newY = Settings::Game::Rows - p->size + distanceToBottomPieceEdge(p);
 	for (int row = p->position.y; row < Settings::Game::Rows; row++)
 	{
-		bool isCollision = false;
 		for (int y = distanceToTopPieceEdge(p); y < p->size - distanceToBottomPieceEdge(p); y++) {
 			int column = p->position.x + distanceToLeftPieceEdge(p);
 			for (int x = distanceToLeftPieceEdge(p); x < p->size - distanceToRightPieceEdge(p); x++)
@@ -284,20 +238,6 @@ void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 				if (board.component<Board>()->cells[boardIndex].type != 0 &&
 					p->cellsInPiece[cellIndex].type != 0)
 				{
-					isCollision = true;
-					/*auto emptyHeightGap = 0;
-					for (int yyy = p->size - 1 - distanceToBottomPieceEdge(p); yyy >= y; yyy--)
-					{
-						if (p->cellsInPiece[x + yyy * p->size].type == 0)
-						{
-							emptyHeightGap++;
-						}
-					}
-					if (emptyHeightGap == 3)
-					{
-						emptyHeightGap = 0;
-					}*/
-					//newY = row - p->size + distanceToBottomPieceEdge(p) + emptyHeightGap;
 					newY = row - 1;
 					goto timeToMerge;
 				}
