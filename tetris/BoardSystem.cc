@@ -271,21 +271,21 @@ void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 	for (int row = p->position.y; row < Settings::Game::Rows; row++)
 	{
 		bool isCollision = false;
-		for (int y = 0; y < p->size; y++) {
+		for (int y = distanceToTopPieceEdge(p); y < p->size - distanceToBottomPieceEdge(p); y++) {
 			int column = p->position.x + distanceToLeftPieceEdge(p);
-			for (int x = 0; x < p->size; x++)
+			for (int x = distanceToLeftPieceEdge(p); x < p->size - distanceToRightPieceEdge(p); x++)
 			{
-				if (column > Settings::Game::Columns-1)
+				if (column > Settings::Game::Columns - 1 || row + y > Settings::Game::Rows - 1)
 				{
 					continue;
 				}
-				auto boardIndex = column + row * Settings::Game::Columns;
+				auto boardIndex = (column)+(row + y) * Settings::Game::Columns;
 				auto cellIndex = x + y * p->size;
 				if (board.component<Board>()->cells[boardIndex].type != 0 &&
 					p->cellsInPiece[cellIndex].type != 0)
 				{
 					isCollision = true;
-					auto emptyHeightGap = 0;
+					/*auto emptyHeightGap = 0;
 					for (int yyy = p->size - 1 - distanceToBottomPieceEdge(p); yyy >= y; yyy--)
 					{
 						if (p->cellsInPiece[x + yyy * p->size].type == 0)
@@ -296,8 +296,9 @@ void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 					if (emptyHeightGap == 3)
 					{
 						emptyHeightGap = 0;
-					}
-					newY = row - p->size + distanceToBottomPieceEdge(p) + emptyHeightGap;
+					}*/
+					//newY = row - p->size + distanceToBottomPieceEdge(p) + emptyHeightGap;
+					newY = row - 1;
 					goto timeToMerge;
 				}
 
