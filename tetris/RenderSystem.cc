@@ -5,6 +5,7 @@
 #include <tchar.h>
 #include "Board.h"
 #include "Piece.h"
+#include "Utils.h"
 
 RenderSystem::RenderSystem(std::shared_ptr<Game> target) : target(target) { }
 
@@ -19,25 +20,22 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 		{
 			for (int x = 0; x < Settings::Game::Columns; x++)
 			{
-				switch (board.cells[x + y * Settings::Game::Columns].type)
-				{
-				case 0:
-					this->target->DrawBitmap(this->target->bitmapDictionary[Resource::BlackBlock],
-						x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) + Settings::Game::BoardOffset.x,
-						y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) + Settings::Game::BoardOffset.y);
-					break;
-				case 1:
-					this->target->DrawBitmap(this->target->bitmapDictionary[Resource::BlueBlock],
-						x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) + Settings::Game::BoardOffset.x,
-						y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) + Settings::Game::BoardOffset.y);
-					break;
-				case 2:
-					this->target->DrawBitmap(this->target->bitmapDictionary[Resource::RedBlock],
-						x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) + Settings::Game::BoardOffset.x,
-						y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) + Settings::Game::BoardOffset.y);
-					break;
-				}
-				
+				this->target->DrawBitmap(
+					this->target->bitmapDictionary[
+						Utils::GetResourceForPieceType(
+							board.cells[x + y * Settings::Game::Columns].type)],
+					x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) + 
+							Settings::Game::BoardOffset.x,
+					y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) + 
+							Settings::Game::BoardOffset.y);
+
+				std::wstring nbr = std::to_wstring(x + y * Settings::Game::Columns);
+				this->target->DrawString(nbr, RGB(0, 0, 0), x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
+					Settings::Game::BoardOffset.x, y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) +
+					Settings::Game::BoardOffset.y);
+				this->target->DrawString(nbr, RGB(255, 255, 255), x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
+					Settings::Game::BoardOffset.x - 1, y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) +
+					Settings::Game::BoardOffset.y - 1);
 			}
 		}
 	});
@@ -50,8 +48,11 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 			{
 				auto drawX = (piece.position.x + x) * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) + Settings::Game::BoardOffset.x;
 				auto drawY = (piece.position.y + y) * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) + Settings::Game::BoardOffset.y;
+
 				if (piece.cellsInPiece[x + y * piece.size].type != 0) {
-					this->target->DrawBitmap(target->bitmapDictionary[Resource::RedBlock], drawX, drawY);
+					this->target->DrawBitmap(target->bitmapDictionary[
+						Utils::GetResourceForPieceType(piece.cellsInPiece[x + y * piece.size].type)], 
+						drawX, drawY);
 				}
 
 				std::wstring nbr = std::to_wstring(x + y * piece.size);
@@ -59,8 +60,6 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 				this->target->DrawString(nbr, RGB(255, 255, 255), drawX - 1, drawY - 1);
 			}
 		}
-
-
 	});
 
 	es.each<Body, Renderable>([this](entityx::Entity entity, Body &body, Renderable &renderable) {

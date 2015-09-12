@@ -59,6 +59,11 @@ void Game::InitializeGraphics(HWND window)
 	LoadBitmapFromFile(std::wstring(_T("blueblock.bmp")), Resource::BlueBlock);
 	LoadBitmapFromFile(std::wstring(_T("background.bmp")), Resource::Background);
 	LoadBitmapFromFile(std::wstring(_T("blackblock.bmp")), Resource::BlackBlock);
+	LoadBitmapFromFile(std::wstring(_T("greenblock.bmp")), Resource::GreenBlock);
+	LoadBitmapFromFile(std::wstring(_T("cyanblock.bmp")), Resource::CyanBlock);
+	LoadBitmapFromFile(std::wstring(_T("magentablock.bmp")), Resource::MagentaBlock);
+	LoadBitmapFromFile(std::wstring(_T("orangeblock.bmp")), Resource::OrangeBlock);
+	LoadBitmapFromFile(std::wstring(_T("yellowblock.bmp")), Resource::YellowBlock);
 
 	//this->player = std::make_shared<Player>(0, 0);
 	//player->resource = Resource::PlayerTile;
@@ -89,10 +94,6 @@ void Game::DrawString(const std::wstring text, COLORREF color, int x, int y) con
 
 void Game::Update(const double deltaTime)
 {
-	//for (auto& physics : physicsComponents)
-	//{
-	//    physics->Update(deltaTime);
-	//}
 	if (screens.size() > 0) {
 		screens[screens.size() - 1]->Update(deltaTime);
 	}

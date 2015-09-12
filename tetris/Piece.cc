@@ -48,9 +48,9 @@ void Piece::SetupPiece(Piece& piece)
 	case PieceType::J:
 	{
 		piece.cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(0),
-			Cell(1),Cell(1),Cell(0),
+			Cell(0),Cell(2),Cell(0),
+			Cell(0),Cell(2),Cell(0),
+			Cell(2),Cell(2),Cell(0),
 		};
 		piece.size = 3;
 	}
@@ -58,9 +58,9 @@ void Piece::SetupPiece(Piece& piece)
 	case PieceType::L:
 	{
 		piece.cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(1)
+			Cell(0),Cell(3),Cell(0),
+			Cell(0),Cell(3),Cell(0),
+			Cell(0),Cell(3),Cell(3)
 		};
 
 		piece.size = 3;
@@ -69,20 +69,18 @@ void Piece::SetupPiece(Piece& piece)
 	case PieceType::O:
 	{
 		piece.cellsInPiece = std::vector<Cell>{
-			Cell(0),Cell(0),Cell(0),Cell(0),
-			Cell(0),Cell(1),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(1),Cell(0),
-			Cell(0),Cell(0),Cell(0),Cell(0),
+			Cell(4),Cell(4),
+			Cell(4),Cell(4),
 		};
-		piece.size = 4;
+		piece.size = 2;
 	}
 	break;
 	case PieceType::S:
 	{
 		piece.cellsInPiece = std::vector<Cell>{
 			Cell(0),Cell(0),Cell(0),
-			Cell(0),Cell(1),Cell(1),
-			Cell(1),Cell(1),Cell(0),
+			Cell(0),Cell(5),Cell(5),
+			Cell(5),Cell(5),Cell(0),
 		};
 		piece.size = 3;
 	}
@@ -91,8 +89,8 @@ void Piece::SetupPiece(Piece& piece)
 	{
 		piece.cellsInPiece = std::vector<Cell>{
 			Cell(0),Cell(0),Cell(0),
-			Cell(1),Cell(1),Cell(0),
-			Cell(0),Cell(1),Cell(1),
+			Cell(6),Cell(6),Cell(0),
+			Cell(0),Cell(6),Cell(6),
 		};
 		piece.size = 3;
 	}
@@ -101,8 +99,8 @@ void Piece::SetupPiece(Piece& piece)
 	{
 		piece.cellsInPiece = std::vector<Cell>{
 			Cell(0),Cell(0),Cell(0),
-			Cell(1),Cell(1),Cell(1),
-			Cell(0),Cell(1),Cell(0),
+			Cell(7),Cell(7),Cell(7),
+			Cell(0),Cell(7),Cell(0),
 		};
 		piece.size = 3;
 	}

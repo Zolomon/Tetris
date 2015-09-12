@@ -257,8 +257,5 @@
     <ClInclude Include="PieceSpawnEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="DestroyPieceEvent.h">
-      <Filter>Header Files\Events</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

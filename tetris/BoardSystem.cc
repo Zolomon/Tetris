@@ -59,7 +59,7 @@ void BoardSystem::merge(Piece& piece)
 					{
 						continue;
 					}
-					board.component<Board>()->cells[index] = Cell(1);
+					board.component<Board>()->cells[index] = Cell(piece.cellsInPiece[x + y * piece.size].type);
 				}
 			}
 		}
@@ -85,13 +85,15 @@ void BoardSystem::update(entityx::EntityManager& es, entityx::EventManager& even
 	if (p->isDestroyed)
 	{
 		p->position.y = 0;
+		// TODO: Fix proper centering
+		p->position.x = Settings::Game::Columns / 2 - (p->size / 2) - 1;
 		p->isDestroyed = false;
 		p->type = Utils::RandomPieceType();
 		Piece::SetupPiece(*p.get());
 	}
 
 	auto movePieceDownDiff = pieceMoveDownStartTime + Settings::Game::MovePieceDownTime - currentTime;
-	
+
 	if (movePieceDownDiff <= 0)
 	{
 		events.emit<MoveDownEvent>(es);
@@ -206,10 +208,13 @@ void BoardSystem::receive(const MoveDownEvent& moveDownEvent)
 		p->isDestroyed = true;
 	}
 	// If we can't go down any further
-	if (p->position.y + p->size - distanceToBottomPieceEdge(p) - 1 == Settings::Game::Rows - 1)
-	{
-		merge(*p);
-		p->isDestroyed = true;
+	auto movePieceDownTimeDiff = this->pieceMoveDownStartTime + Settings::Game::MovePieceDownTime - currentTime;
+	if (movePieceDownTimeDiff <= 0) {
+		if (p->position.y + p->size - distanceToBottomPieceEdge(p) - 1 == Settings::Game::Rows - 1)
+		{
+			merge(*p);
+			p->isDestroyed = true;
+		}
 	}
 	this->pieceMoveDownStartTime = this->currentTime;
 }
@@ -217,9 +222,93 @@ void BoardSystem::receive(const MoveDownEvent& moveDownEvent)
 void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 {
 	Piece *p = piece.component<Piece>().get();
+	//	int maxY = Settings::Game::Rows;
+	//	// 
+	//	for (int y = p->position.y + p->size - distanceToBottomPieceEdge(p); y < Settings::Game::Rows; y++)
+	//	{
+	//		// Only check the columns where we actually have pieces, projected downards.
+	//		for (int x = p->position.x + distanceToLeftPieceEdge(p); x < p->position.x + p->size - distanceToRightPieceEdge(p); x++)
+	//		{
+	//			if (board.component<Board>()->cells[x + y * Settings::Game::Columns].type != 0)
+	//			{
+	//				maxY = y;
+	//				goto breakLoop;
+	//			}
+	//		}
+	//	}
+	//breakLoop:
+	//	bool isCollision = false;
+	//	int increase = 0;
+	//	while(!isCollision)
+	//	{
+	//		for (int y = p->position.y + distanceToTopPieceEdge(p), yy = distanceToTopPieceEdge(p); y < p->position.y + p->size - distanceToBottomPieceEdge(p); y++, yy++)
+	//		{
+	//			// Only check the columns where we actually have pieces, projected downards.
+	//			for (int x = p->position.x + distanceToLeftPieceEdge(p), xx = distanceToLeftPieceEdge(p); x < p->position.x + p->size - distanceToRightPieceEdge(p); x++, xx++)
+	//			{
+	//				auto boardIndex = x + y * Settings::Game::Columns;
+	//				auto cellIndex = xx + yy * p->size;
+	//				if (board.component<Board>()->cells[boardIndex].type != 0 && 
+	//					p->cellsInPiece[cellIndex].type != 0)
+	//				{
+	//					isCollision = true;
+	//					//increase++;
+	//					//p->position.y++;
+	//					//goto breakLoop2;
+	//				}
+	//			}
+	//		}
+	//		//increase++;
+	//		p->position.y++;
+	//		if (p->position.y + p->size - distanceToBottomPieceEdge(p) > Settings::Game::Rows - 1)
+	//		{
+	//			break;
+	//		}
+	//	}
+	//breakLoop2:
+	//	p->position.y = maxY - p->size + distanceToBottomPieceEdge(p) + (isCollision ? 1 : 0);
+	int newY = Settings::Game::Rows - p->size + distanceToBottomPieceEdge(p);
+	for (int row = p->position.y; row < Settings::Game::Rows; row++)
+	{
+		bool isCollision = false;
+		for (int y = 0; y < p->size; y++) {
+			int column = p->position.x + distanceToLeftPieceEdge(p);
+			for (int x = 0; x < p->size; x++)
+			{
+				if (column > Settings::Game::Columns-1)
+				{
+					continue;
+				}
+				auto boardIndex = column + row * Settings::Game::Columns;
+				auto cellIndex = x + y * p->size;
+				if (board.component<Board>()->cells[boardIndex].type != 0 &&
+					p->cellsInPiece[cellIndex].type != 0)
+				{
+					isCollision = true;
+					auto emptyHeightGap = 0;
+					for (int yyy = p->size - 1 - distanceToBottomPieceEdge(p); yyy >= y; yyy--)
+					{
+						if (p->cellsInPiece[x + yyy * p->size].type == 0)
+						{
+							emptyHeightGap++;
+						}
+					}
+					if (emptyHeightGap == 3)
+					{
+						emptyHeightGap = 0;
+					}
+					newY = row - p->size + distanceToBottomPieceEdge(p) + emptyHeightGap;
+					goto timeToMerge;
+				}
+
+				column++;
+			}
+		}
+	}
+timeToMerge:
+	p->position.y = newY;
 	merge(*p);
-	p->position.x = 0;
-	p->position.y = 0;
+	p->isDestroyed = true;
 }
 
 void BoardSystem::receive(const PieceSpawnEvent& pieceSpawnEvent)

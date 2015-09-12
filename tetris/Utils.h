@@ -1,7 +1,9 @@
 #pragma once
 
+#include <assert.h>
 #include <random>
 #include "PieceType.h"
+#include "Resource.h"
 
 class Utils {
 public:
@@ -27,6 +29,30 @@ public:
 	static PieceType RandomPieceType()
 	{
 		return pieces[RandomInt(0, 6)];
+	}
+
+	static Resource GetResourceForPieceType(int type)
+	{
+		switch (type)
+		{
+		case 0:
+			return Resource::BlackBlock;
+		case 1:
+			return Resource::BlueBlock;
+		case 2:
+			return Resource::CyanBlock;
+		case 3:
+			return Resource::GreenBlock;
+		case 4:
+			return Resource::MagentaBlock;
+		case 5:
+			return Resource::RedBlock;
+		case 6:
+			return Resource::YellowBlock;
+		case 7:
+			return Resource::OrangeBlock;
+		}
+		assert(false);
 	}
 
 private:

@@ -157,7 +157,6 @@
     <ClInclude Include="CollisionEvent.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Command.h" />
-    <ClInclude Include="DestroyPieceEvent.h" />
     <ClInclude Include="ExplosionSystem.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameApplication.h" />
