@@ -7,7 +7,7 @@ Created by [@Zolomon](http://github.com/Zolomon) :coffee::feelsgood::squirrel::d
 
 # Installation
 1.  Download the source
-2.  Compile using Visual Studio 2013/2012.
+2.  Compile using Visual Studio 2015.
 3.  Run
 
 # License
