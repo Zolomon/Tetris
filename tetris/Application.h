@@ -7,8 +7,6 @@ public:
 
 	Application() : restart(false) {}
 
-	//explicit Application(bool restart) : restart(restart) { }
-
 	virtual ~Application()
 	{
 	}

@@ -4,8 +4,8 @@
 class GameOverScreen : public GameScreen
 {
 public:
-	GameOverScreen(std::shared_ptr<Game> game);
+	explicit GameOverScreen(std::shared_ptr<Game> game);
 
-	void Update(const double deltaTime) override;
-	void Render(const double deltaTime) override;
+	void update(const double deltaTime) override;
+	void render(const double deltaTime) override;
 };

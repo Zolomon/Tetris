@@ -2,7 +2,8 @@
 #include "Application.h"
 #include "Game.h"
 
-class GameOverApplication : public Application {
+class GameOverApplication : public Application 
+{
 public:
 	explicit GameOverApplication(std::shared_ptr<Game> game);
 

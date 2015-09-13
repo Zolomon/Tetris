@@ -1,6 +1,6 @@
 #include "InputSystem.h"
 #include "RotateEvent.h"
-#include "InstanDownEvent.h"
+#include "InstantDownEvent.h"
 #include "MoveDownEvent.h"
 #include "MoveLeftEvent.h"
 #include "MoveRightEvent.h"
@@ -8,7 +8,7 @@
 InputSystem::InputSystem(std::shared_ptr<Game> game) : game(game) {}
 
 void InputSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	auto commands = game->GetCommandsThisFrame();
+	auto commands = game->getCommandsThisFrame();
 
 	for (auto command : commands)
 	{
@@ -31,7 +31,7 @@ void InputSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 			break;
 		case Esc:
 		{
-			game->PopGameScreen();
+			game->popGameScreen();
 		}
 		break;
 		default:

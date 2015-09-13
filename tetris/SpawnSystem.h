@@ -9,7 +9,6 @@ public:
 	explicit SpawnSystem(int count);
 
 	void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
-	void receive(const RestartEvent& restartEvent);
 private:
 	glm::vec2 size;
 };

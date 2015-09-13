@@ -11,7 +11,7 @@ MenuInputSystem::MenuInputSystem(std::shared_ptr<Game> game) : game(game)
 
 void MenuInputSystem::update(entityx::EntityManager& es, entityx::EventManager& events, entityx::TimeDelta dt)
 {
-	auto commandsThisFrame = game->GetCommandsThisFrame();
+	auto commandsThisFrame = game->getCommandsThisFrame();
 
 	for (auto&& command : commandsThisFrame)
 	{

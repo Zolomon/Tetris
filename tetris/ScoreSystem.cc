@@ -1,4 +1,5 @@
 #include "ScoreSystem.h"
+#include "ScoreScreen.h"
 
 void ScoreSystem::configure(entityx::EventManager &events) {
 	events.subscribe<ScoreEvent>(*this);

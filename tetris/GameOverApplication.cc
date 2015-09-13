@@ -8,7 +8,7 @@ GameOverApplication::GameOverApplication(std::shared_ptr<Game> game) : game(game
 }
 
 void GameOverApplication::update(entityx::TimeDelta dt) {
-	auto commands = game->GetCommandsThisFrame();
+	auto commands = game->getCommandsThisFrame();
 	// Ugly hack. 
 	for (auto command : commands)
 	{
@@ -16,10 +16,10 @@ void GameOverApplication::update(entityx::TimeDelta dt) {
 		{
 		case Up:
 		{ 
-			this->menuChoice--;
-			if (this->menuChoice < 0)
+			menuChoice--;
+			if (menuChoice < 0)
 			{
-				this->menuChoice = 1;
+				menuChoice = 1;
 			}
 		}
 			break;
@@ -32,28 +32,28 @@ void GameOverApplication::update(entityx::TimeDelta dt) {
 			case 0:
 			{
 				game->gameScreenDictionary[GameScreenType::Play]->restart = true;
-				game->PopGameScreen();
+				game->popGameScreen();
 			}
 			break;
 			case 1:
 				game->gameScreenDictionary[GameScreenType::Play]->restart = true;
-				game->PopGameScreen();
-				game->PopGameScreen();
-				game->PopGameScreen();
+				game->popGameScreen();
+				game->popGameScreen();
+				game->popGameScreen();
 				break;
 			}
 			break;
 		}
 		case Down:
-			this->menuChoice++;
-			if (this->menuChoice > 1)
+			menuChoice++;
+			if (menuChoice > 1)
 			{
-				this->menuChoice = 0;
+				menuChoice = 0;
 			}
 			break;
 		case Esc:
 		{
-			game->PopGameScreen();
+			game->popGameScreen();
 		}
 		break;
 		default:
@@ -64,9 +64,9 @@ void GameOverApplication::update(entityx::TimeDelta dt) {
 
 void GameOverApplication::render(entityx::TimeDelta dt)
 {
-	game->BeginGraphics();
+	game->beginGraphics();
 
-	game->DrawBitmap(game->bitmapDictionary[Resource::GameOverBackground], 0, 0);
+	game->drawBitmap(game->bitmapDictionary[Resource::GameOverBackground], 0, 0);
 	
 	int offsetFromTop = 50;
 	int itemOffsetY = offsetFromTop;
@@ -75,13 +75,13 @@ void GameOverApplication::render(entityx::TimeDelta dt)
 
 	itemOffsetY += distanceToNextItem;
 	std::wstring restartItem = _T("Restart");
-	game->DrawString(restartItem, RGB(0, 0, 0), itemOffsetX + 1, itemOffsetY + 1);
-	game->DrawString(restartItem, menuChoice == 0 ? RGB(255, 0, 0) : RGB(255, 255, 255), itemOffsetX, itemOffsetY);
+	game->drawString(restartItem, RGB(0, 0, 0), itemOffsetX + 1, itemOffsetY + 1);
+	game->drawString(restartItem, menuChoice == 0 ? RGB(255, 0, 0) : RGB(255, 255, 255), itemOffsetX, itemOffsetY);
 
 	itemOffsetY += distanceToNextItem;
 	std::wstring quitItem = _T("Quit");
-	game->DrawString(quitItem, RGB(0, 0, 0), itemOffsetX + 1, itemOffsetY + 1);
-	game->DrawString(quitItem, menuChoice == 1 ? RGB(255, 0, 0) : RGB(255, 255, 255), itemOffsetX, itemOffsetY);
+	game->drawString(quitItem, RGB(0, 0, 0), itemOffsetX + 1, itemOffsetY + 1);
+	game->drawString(quitItem, menuChoice == 1 ? RGB(255, 0, 0) : RGB(255, 255, 255), itemOffsetX, itemOffsetY);
 
-	game->EndGraphics();
+	game->endGraphics();
 }

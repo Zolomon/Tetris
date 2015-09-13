@@ -6,11 +6,11 @@ MainMenuGameScreen::MainMenuGameScreen(std::shared_ptr<Game> game) : GameScreen(
 
 }
 
-void MainMenuGameScreen::Update(const double deltaTime) {
+void MainMenuGameScreen::update(const double deltaTime) {
 	app->update(deltaTime);
 }
 
-void MainMenuGameScreen::Render(const double deltaTime)
+void MainMenuGameScreen::render(const double deltaTime)
 {
 	app->render(deltaTime);
 }

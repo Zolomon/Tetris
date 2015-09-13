@@ -48,8 +48,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game = std::make_shared<Game>();
 
 	game->game = game;
-	game->InitializeGraphics(hwnd);
-	game->Start();
+	game->initializeGraphics(hwnd);
+	game->start();
 
 	MSG msg = { 0 };
 
@@ -89,23 +89,23 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case 'S':
-			game->AddCommand(Command::Down);
+			game->addCommand(Command::Down);
 
 			break;
 		case 'W':
-			game->AddCommand(Command::Up);
+			game->addCommand(Command::Up);
 
 			break;
 		case 'A':
-			game->AddCommand(Command::Left);
+			game->addCommand(Command::Left);
 
 			break;
 		case 'D':
-			game->AddCommand(Command::Right);
+			game->addCommand(Command::Right);
 
 			break;
 		case ' ':
-			game->AddCommand(Command::Space);
+			game->addCommand(Command::Space);
 
 			break;
 		default:
@@ -117,12 +117,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == VK_ESCAPE)
 		{
 			//PostQuitMessage(0);
-			game->AddCommand(Command::Esc);
+			game->addCommand(Command::Esc);
 			//return 0;
 		}
 		else if (wParam == VK_RETURN)
 		{
-			game->AddCommand(Command::Enter);
+			game->addCommand(Command::Enter);
 		}
 	}
 	case WM_ERASEBKGND:
@@ -151,10 +151,10 @@ void ProcessInput(HWND hwnd, MSG* msg)
 
 void Update(double deltaTime)
 {
-	game->Update(deltaTime);
+	game->update(deltaTime);
 }
 
 void Render(double deltaTime)
 {
-	game->Render(deltaTime);
+	game->render(deltaTime);
 }

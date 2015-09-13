@@ -6,7 +6,7 @@ MainGameScreen::MainGameScreen(std::shared_ptr<Game> game) : GameScreen(game, st
 
 }
 
-void MainGameScreen::Update(const double deltaTime) {
+void MainGameScreen::update(const double deltaTime) {
 	app->restart = restart;
 	app->update(deltaTime);
 	if (!app->restart)
@@ -15,7 +15,7 @@ void MainGameScreen::Update(const double deltaTime) {
 	}
 }
 
-void MainGameScreen::Render(const double deltaTime)
+void MainGameScreen::render(const double deltaTime)
 {
 	app->render(deltaTime);
 }

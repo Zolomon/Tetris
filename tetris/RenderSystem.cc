@@ -9,9 +9,9 @@
 RenderSystem::RenderSystem(std::shared_ptr<Game> target) : target(target) { }
 
 void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) {
-	this->target->BeginGraphics();
+	this->target->beginGraphics();
 
-	target->DrawBitmap(target->bitmapDictionary[Resource::Background], 0, 0);
+	target->drawBitmap(target->bitmapDictionary[Resource::Background], 0, 0);
 
 	es.each<Board>([this](entityx::Entity entity, Board& board)
 	{
@@ -21,7 +21,7 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 			{
 				if (y < Settings::Game::DisabledBlockThreshold)
 				{
-					this->target->DrawBitmap(
+					this->target->drawBitmap(
 						this->target->bitmapDictionary[Resource::DisabledBlock],
 						x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
 								Settings::Game::BoardOffset.x,
@@ -30,9 +30,9 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 				}
 				else
 				{
-					this->target->DrawBitmap(
+					this->target->drawBitmap(
 						this->target->bitmapDictionary[
-							Utils::GetResourceForPieceType(
+							Utils::getResourceForPieceType(
 								board.cells[x + y * Settings::Game::Columns].type)],
 						x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
 								Settings::Game::BoardOffset.x,
@@ -40,10 +40,10 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 								Settings::Game::BoardOffset.y);
 				}
 				/*std::wstring nbr = std::to_wstring(x + y * Settings::Game::Columns);
-				this->target->DrawString(nbr, RGB(0, 0, 0), x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
+				this->target->drawString(nbr, RGB(0, 0, 0), x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
 					Settings::Game::BoardOffset.x, y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) +
 					Settings::Game::BoardOffset.y);
-				this->target->DrawString(nbr, RGB(255, 255, 255), x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
+				this->target->drawString(nbr, RGB(255, 255, 255), x * (Settings::Game::TileSize.x + Settings::Game::TileOffset.x) +
 					Settings::Game::BoardOffset.x - 1, y * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) +
 					Settings::Game::BoardOffset.y - 1);*/
 			}
@@ -60,14 +60,14 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 				auto drawY = (piece.position.y + y) * (Settings::Game::TileSize.y + Settings::Game::TileOffset.y) + Settings::Game::BoardOffset.y;
 
 				if (piece.cellsInPiece[x + y * piece.size].type != 0) {
-					this->target->DrawBitmap(target->bitmapDictionary[
-						Utils::GetResourceForPieceType(piece.cellsInPiece[x + y * piece.size].type)],
+					this->target->drawBitmap(target->bitmapDictionary[
+						Utils::getResourceForPieceType(piece.cellsInPiece[x + y * piece.size].type)],
 						drawX, drawY);
 				}
 
 				/*std::wstring nbr = std::to_wstring(x + y * piece.size);
-				this->target->DrawString(nbr, RGB(0, 0, 0), drawX, drawY);
-				this->target->DrawString(nbr, RGB(255, 255, 255), drawX - 1, drawY - 1);*/
+				this->target->drawString(nbr, RGB(0, 0, 0), drawX, drawY);
+				this->target->drawString(nbr, RGB(255, 255, 255), drawX - 1, drawY - 1);*/
 			}
 		}
 	});
@@ -78,49 +78,48 @@ void RenderSystem::update(entityx::EntityManager &es, entityx::EventManager &eve
 		int itemOffsetDistance = 24;
 		std::wstring highScore = _T("High Score: ");
 		highScore += std::to_wstring(scoreScreen.highScore);
-		this->target->DrawString(highScore, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y);
-		this->target->DrawString(highScore, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y - 1);
+		this->target->drawString(highScore, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y);
+		this->target->drawString(highScore, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y - 1);
 
 		itemOffset += itemOffsetDistance;
 
 		std::wstring score = _T("Score: ");
 		score += std::to_wstring(scoreScreen.score);
-		this->target->DrawString(score, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y + itemOffset);
-		this->target->DrawString(score, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y + itemOffset - 1);
+		this->target->drawString(score, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y + itemOffset);
+		this->target->drawString(score, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y + itemOffset - 1);
 
 		itemOffset += itemOffsetDistance;
 
 		std::wstring clearedRows = _T("Rows to next level: ");
 		clearedRows += std::to_wstring(Settings::Game::RowsPerLevel - scoreScreen.clearedRows);
-		this->target->DrawString(clearedRows, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y + itemOffset);
-		this->target->DrawString(clearedRows, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y + itemOffset - 1);
+		this->target->drawString(clearedRows, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y + itemOffset);
+		this->target->drawString(clearedRows, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y + itemOffset - 1);
 
 		itemOffset += itemOffsetDistance;
 
 		std::wstring level = _T("Level: ");
 		level += std::to_wstring(scoreScreen.currentLevel);
-		this->target->DrawString(level, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y + itemOffset);
-		this->target->DrawString(level, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y + itemOffset - 1);
+		this->target->drawString(level, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y + itemOffset);
+		this->target->drawString(level, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y + itemOffset - 1);
 
 		itemOffset += itemOffsetDistance;
 
 		std::wstring highestLevel = _T("Highest level: ");
 		highestLevel += std::to_wstring(scoreScreen.highestLevel);
-		this->target->DrawString(highestLevel, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y + itemOffset);
-		this->target->DrawString(highestLevel, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y + itemOffset - 1);
+		this->target->drawString(highestLevel, RGB(0, 0, 0), scoreScreen.position.x, scoreScreen.position.y + itemOffset);
+		this->target->drawString(highestLevel, RGB(255, 255, 255), scoreScreen.position.x - 1, scoreScreen.position.y + itemOffset - 1);
 	});
 
 	last_update += dt;
 	frame_count++;
 	std::wstring out;
-	//if (last_update >= 0.5) {
 
 	const double fps = frame_count / last_update;
 	out = std::to_wstring(es.size()) + _T(" entities (") + std::to_wstring(static_cast<int>(fps)) + _T(" fps)");
 
 	last_update = 0.0;
 	frame_count = 0.0;
-	//}
-	this->target->DrawString(out, RGB(255, 0, 0), 10, 10);
-	this->target->EndGraphics();
+	
+	this->target->drawString(out, RGB(255, 0, 0), 10, 10);
+	this->target->endGraphics();
 }

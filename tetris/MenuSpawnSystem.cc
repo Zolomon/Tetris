@@ -1,6 +1,10 @@
 #include "MenuSpawnSystem.h"
 #include "Game.h"
 #include "GameScreenType.h"
+#include <tchar.h>
+#include "MenuItem.h"
+#include "Body.h"
+#include "SelectedMenuItem.h"
 
 MenuSpawnSystem::MenuSpawnSystem(std::shared_ptr<Game> game) : game(game), isMenuItemsCreated(false)
 {
@@ -16,8 +20,8 @@ void MenuSpawnSystem::update(entityx::EntityManager& es, entityx::EventManager& 
 		
 		std::function<void(std::shared_ptr<Game>)> playExec = [](std::shared_ptr<Game> game)
 		{
-			game->PushGameScreen(GameScreenType::GameMenu);
-			game->PushGameScreen(GameScreenType::Play);
+			game->pushGameScreen(GameScreenType::GameMenu);
+			game->pushGameScreen(GameScreenType::Play);
 		};
 
 		playEntity.assign<MenuItem>(0, text, playExec);

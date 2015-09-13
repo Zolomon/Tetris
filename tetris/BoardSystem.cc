@@ -123,8 +123,8 @@ void BoardSystem::update(entityx::EntityManager& es, entityx::EventManager& even
 		// TODO: Fix proper centering
 		p->position.x = Settings::Game::Columns / 2 - (p->size / 2) - 1;
 		p->isDestroyed = false;
-		p->type = Utils::RandomPieceType();
-		Piece::SetupPiece(*p.get());
+		p->type = Utils::randomPieceType();
+		Piece::setupPiece(*p.get());
 	}
 
 	auto movePieceDownDiff = pieceMoveDownStartTime + Settings::Game::MovePieceDownTime - currentTime;
@@ -165,7 +165,7 @@ findHighestCell:
 
 	if (gameOver)
 	{
-		target->PushGameScreen(GameScreenType::GameOver);
+		target->pushGameScreen(GameScreenType::GameOver);
 	}
 }
 
@@ -401,7 +401,7 @@ void BoardSystem::receive(const RotateEvent& rotateEvent)
 		auto preRight = distanceToRightPieceEdge(p);
 		auto preTop = distanceToTopPieceEdge(p);
 		auto preBot = distanceToBottomPieceEdge(p);
-		p->Rotate();
+		p->rotate();
 		if (isMergable(*p)) {
 			if (p->position.x < 0)
 			{
@@ -419,9 +419,9 @@ void BoardSystem::receive(const RotateEvent& rotateEvent)
 		else
 		{
 			// TODO: Ugly hack, revert rotation by rotating another 270 degrees.
-			p->Rotate();
-			p->Rotate();
-			p->Rotate();
+			p->rotate();
+			p->rotate();
+			p->rotate();
 		}
 	}
 }

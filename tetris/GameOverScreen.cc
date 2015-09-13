@@ -6,11 +6,11 @@ GameOverScreen::GameOverScreen(std::shared_ptr<Game> game) : GameScreen(game, st
 
 }
 
-void GameOverScreen::Update(const double deltaTime) {
+void GameOverScreen::update(const double deltaTime) {
 	app->update(deltaTime);
 }
 
-void GameOverScreen::Render(const double deltaTime)
+void GameOverScreen::render(const double deltaTime)
 {
 	app->render(deltaTime);
 }

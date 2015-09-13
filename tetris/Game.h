@@ -12,8 +12,6 @@
 #include "GDIBitmap.h"
 #include "GameScreen.h"
 
-//class RenderComponent;
-//class PhysicsComponent;
 class GameScreen;
 enum GameScreenType;
 
@@ -22,24 +20,24 @@ public:
     Game() {};
     ~Game() {};
 
-    bool LoadBitmapFromFile(const std::wstring filename, Resource resource);
-    void InitializeGraphics(HWND window);
-    void BeginGraphics();
-    void DrawBitmap(Bitmap bitmap, int x, int y)  const;
-    void DrawString(const std::wstring text, COLORREF color, int x, int y) const;
-    void Render(const double interpolation);
-    void Update(const double deltaTime);
-    void EndGraphics();
-    void FreeBitmap(Bitmap bitmap);
-    void ShutdownGraphics();
+    bool loadBitmapFromFile(const std::wstring filename, Resource resource);
+    void initializeGraphics(HWND window);
+    void beginGraphics();
+    void drawBitmap(Bitmap bitmap, int x, int y)  const;
+    void drawString(const std::wstring text, COLORREF color, int x, int y) const;
+    void render(const double interpolation);
+    void update(const double deltaTime);
+    void endGraphics();
+    void freeBitmap(Bitmap bitmap);
+    void shutdownGraphics();
 
-    void Start();
-    void ProcessInput(Command command);
-	std::vector<Command> GetCommandsThisFrame();
-	void AddCommand(Command command);
+    void start();
 
-	void PushGameScreen(GameScreenType gameScreenType);
-	void PopGameScreen();
+	std::vector<Command> getCommandsThisFrame();
+	void addCommand(Command command);
+
+	void pushGameScreen(GameScreenType gameScreenType);
+	void popGameScreen();
 
     // GDI-related stuff
     HWND window;
@@ -47,15 +45,7 @@ public:
     HBITMAP backbufferBitmap;
     HDC bitmapDC;
     HGDIOBJ oldObject;
-
-    
     // EOF GDI
-
-
-    //std::vector<std::shared_ptr<Entity>> entities;
-    //std::vector<std::shared_ptr<RenderComponent>> renderComponents;
-    //std::vector<std::shared_ptr<PhysicsComponent>> physicsComponents;
-    //std::vector<std::shared_ptr<>
 
 	std::shared_ptr<Game> game;
 	std::vector<std::shared_ptr<GameScreen>> screens;
@@ -65,7 +55,4 @@ public:
     std::vector<GDIBitmap> gdiBitmaps;
     std::vector<Bitmap> bitmaps;
 	std::vector<Command> commandsThisFrame;
-    //Bitmap playerBitmap;
-    //int score;
-private:
 };

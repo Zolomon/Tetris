@@ -11,8 +11,8 @@ struct Piece
 	Piece(Piece&& other) noexcept;
 	Piece& operator= (const Piece& other);
 	Piece& operator= (Piece&& other) noexcept;
-	static void SetupPiece(Piece& piece);
-	void Rotate();
+	static void setupPiece(Piece& piece);
+	void rotate();
 
 	glm::vec2 position;
 	PieceType type;

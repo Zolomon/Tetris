@@ -5,7 +5,7 @@
 
 class Game;
 
-// Render all Renderable entities and draw some informational text.
+// render all Renderable entities and draw some informational text.
 class RenderSystem :public entityx::System<RenderSystem> {
 public:
 	explicit RenderSystem(std::shared_ptr<Game> target);

@@ -20,15 +20,9 @@ public:
 	{
 	}
 
-	/*virtual void OnLoad() = 0;
-	virtual void Loading() = 0;
-	virtual void OnLoaded() = 0;*/
-	virtual void Update(const double deltaTime) = 0;
-	virtual void Render(const double interpolation) = 0; 
-	/*virtual void OnUnloading() = 0;
-	virtual void Unloading() = 0;
-	virtual void OnUnloaded() = 0;*/
-
+	virtual void update(const double deltaTime) = 0;
+	virtual void render(const double interpolation) = 0; 
+	
 	bool restart;
 protected:
 	std::shared_ptr<Game> game;

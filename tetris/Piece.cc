@@ -2,7 +2,7 @@
 
 Piece::Piece(PieceType type) : position(0, 0), type(type), isDestroyed(false)
 {
-	SetupPiece(*this);
+	setupPiece(*this);
 }
 
 Piece::Piece(const Piece& other) : position(other.position), type(other.type), cellsInPiece(other.cellsInPiece), isDestroyed(other.isDestroyed)
@@ -30,7 +30,7 @@ Piece& Piece::operator=(Piece&& other) noexcept
 	return *this;
 }
 
-void Piece::SetupPiece(Piece& piece)
+void Piece::setupPiece(Piece& piece)
 {
 	switch (piece.type)
 	{
@@ -108,7 +108,7 @@ void Piece::SetupPiece(Piece& piece)
 	}
 }
 
-void Piece::Rotate()
+void Piece::rotate()
 {
 	std::vector<Cell> newCells;
 

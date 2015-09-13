@@ -149,7 +149,6 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardSystem.h" />
     <ClInclude Include="Body.h" />
-    <ClInclude Include="BodySystem.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Game.h" />
@@ -161,7 +160,7 @@
     <ClInclude Include="GameScreenType.h" />
     <ClInclude Include="GDIBitmap.h" />
     <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="InstanDownEvent.h" />
+    <ClInclude Include="InstantDownEvent.h" />
     <ClInclude Include="MainGameScreen.h" />
     <ClInclude Include="MainMenuApplication.h" />
     <ClInclude Include="MainMenuGameScreen.h" />

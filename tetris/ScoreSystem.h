@@ -1,7 +1,6 @@
 #pragma once
 #include "entityx/System.h"
 #include "ScoreEvent.h"
-#include "ScoreScreen.h"
 
 class ScoreSystem : public entityx::System<ScoreSystem>, public entityx::Receiver<ScoreSystem>
 {
