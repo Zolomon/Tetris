@@ -74,7 +74,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.\glm\;..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -90,6 +91,9 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>entityx-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,7 +131,6 @@
     <ClCompile Include="GameMenuApplication.cc" />
     <ClCompile Include="GameMenuScreen.cc" />
     <ClCompile Include="GameOverApplication.cc" />
-    <ClCompile Include="GameOverApplication.h" />
     <ClCompile Include="GameOverScreen.cc" />
     <ClCompile Include="InputSystem.cc" />
     <ClCompile Include="main.cc" />
@@ -154,6 +157,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameApplication.h" />
     <ClInclude Include="GameMenuApplication.h" />
+    <ClInclude Include="GameOverApplication.h" />
     <ClInclude Include="GameMenuScreen.h" />
     <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="GameScreen.h" />

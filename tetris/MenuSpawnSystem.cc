@@ -11,7 +11,8 @@ MenuSpawnSystem::MenuSpawnSystem(std::shared_ptr<Game> game) : game(game), isMen
 	
 }
 
-void MenuSpawnSystem::update(entityx::EntityManager& es, entityx::EventManager& events, entityx::TimeDelta dt)
+void MenuSpawnSystem::update(entityx::EntityManager& es, entityx::EventManager& events, 
+	entityx::TimeDelta dt)
 {
 	if (!isMenuItemsCreated)
 	{
@@ -26,7 +27,7 @@ void MenuSpawnSystem::update(entityx::EntityManager& es, entityx::EventManager& 
 
 		playEntity.assign<MenuItem>(0, text, playExec);
 
-		playEntity.assign<Body>(glm::vec2(50, 50), glm::vec2(0, 0), 0);
+		playEntity.assign<Body>(glm::vec2(50.0f, 50.0f), glm::vec2(0.0f, 0.0f));
 		playEntity.assign<SelectedMenuItem>();
 
 		auto quitExec = [](std::shared_ptr<Game> game)
@@ -37,7 +38,9 @@ void MenuSpawnSystem::update(entityx::EntityManager& es, entityx::EventManager& 
 		entityx::Entity quitEntity = es.create();
 		std::wstring quitText = _T("Quit");
 		quitEntity.assign<MenuItem>(1, quitText, quitExec);
-		quitEntity.assign<Body>(glm::vec2(playEntity.component<Body>()->position.x, playEntity.component<Body>()->position.x + 18), glm::vec2(0, 0), 0);
+		quitEntity.assign<Body>(glm::vec2(playEntity.component<Body>()->position.x, 
+			static_cast<float>(playEntity.component<Body>()->position.x + 18)), 
+			glm::vec2(0.0f, 0.0f));
 		
 		isMenuItemsCreated = true;
 	}

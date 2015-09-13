@@ -25,7 +25,7 @@ void SpawnSystem::update(entityx::EntityManager &es, entityx::EventManager &even
 	{
 		entityx::Entity e = es.create();
 		e.assign<Piece>(Utils::randomPieceType());
-		e.component<Piece>()->position.x = Settings::Game::Columns / 2 - e.component<Piece>()->size / 2;
+		e.component<Piece>()->position.x = static_cast<float>(Settings::Game::Columns / 2 - e.component<Piece>()->size / 2);
 		events.emit<PieceSpawnEvent>();
 	}
 

@@ -99,9 +99,6 @@
     <ClCompile Include="GameOverScreen.cc">
       <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="GameOverApplication.h">
-      <Filter>Header Files\Applications</Filter>
-    </ClCompile>
     <ClCompile Include="GameOverApplication.cc">
       <Filter>Source Files\Applications</Filter>
     </ClCompile>
@@ -235,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="InstantDownEvent.h">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverApplication.h">
+      <Filter>Header Files\Applications</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

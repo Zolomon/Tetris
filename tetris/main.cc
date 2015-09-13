@@ -89,24 +89,23 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case 'S':
+		case VK_DOWN:
 			game->addCommand(Command::Down);
-
 			break;
 		case 'W':
+		case VK_UP:
 			game->addCommand(Command::Up);
-
 			break;
 		case 'A':
+		case VK_LEFT:
 			game->addCommand(Command::Left);
-
 			break;
 		case 'D':
+		case VK_RIGHT:
 			game->addCommand(Command::Right);
-
 			break;
 		case ' ':
 			game->addCommand(Command::Space);
-
 			break;
 		default:
 			break;
@@ -116,9 +115,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		if (wParam == VK_ESCAPE)
 		{
-			//PostQuitMessage(0);
 			game->addCommand(Command::Esc);
-			//return 0;
 		}
 		else if (wParam == VK_RETURN)
 		{

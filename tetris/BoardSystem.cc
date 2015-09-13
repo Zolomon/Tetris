@@ -27,9 +27,9 @@ bool BoardSystem::isMergable(Piece& piece)
 		for (int x = 0; x < piece.size; x++)
 		{
 			// TODO: Should never be possible to go out of bounds
-			int xx = (piece.position.x + x);
-			int yy = (piece.position.y + y);
-			auto index = xx + yy * Settings::Game::Columns;
+			size_t xx = static_cast<size_t>(piece.position.x + x);
+			size_t yy = static_cast<size_t>(piece.position.y + y);
+			size_t index = static_cast<size_t>(xx + yy * Settings::Game::Columns);
 			if (index >= this->board.component<Board>()->cells.size())
 			{
 				continue;
@@ -58,7 +58,7 @@ void BoardSystem::merge(Piece& piece)
 				{
 					auto xx = piece.position.x + x;
 					auto yy = piece.position.y + y;
-					auto index = xx + yy * Settings::Game::Columns;
+					auto index = static_cast<size_t>(xx + yy * Settings::Game::Columns);
 					if (index < 0 || index >= board.component<Board>()->cells.size())
 					{
 						continue;
@@ -121,7 +121,7 @@ void BoardSystem::update(entityx::EntityManager& es, entityx::EventManager& even
 	{
 		p->position.y = 0;
 		// TODO: Fix proper centering
-		p->position.x = Settings::Game::Columns / 2 - (p->size / 2) - 1;
+		p->position.x = static_cast<float>(Settings::Game::Columns / 2 - (p->size / 2) - 1);
 		p->isDestroyed = false;
 		p->type = Utils::randomPieceType();
 		Piece::setupPiece(*p.get());
@@ -300,7 +300,7 @@ void BoardSystem::receive(const MoveLeftEvent& moveLeft)
 	auto p = piece.component<Piece>().get();
 	auto smallestX = distanceToLeftPieceEdge(p);
 	auto preX = p->position.x;
-	p->position.x = Utils::clampd(p->position.x - 1, -smallestX, Settings::Game::Columns);
+	p->position.x = static_cast<float>(Utils::clampd(static_cast<double>(p->position.x - 1), -smallestX, Settings::Game::Columns));
 	if (!isMergable(*p))
 	{
 		p->position.x = preX;
@@ -312,7 +312,7 @@ void BoardSystem::receive(const MoveRightEvent& moveRight)
 	auto p = piece.component<Piece>().get();
 	auto largestX = distanceToRightPieceEdge(p);
 	auto preX = p->position.x;
-	p->position.x = Utils::clamp(p->position.x + 1, 0, Settings::Game::Columns - (p->size - largestX));
+	p->position.x = static_cast<float>(Utils::clamp(static_cast<int>(p->position.x + 1), 0, Settings::Game::Columns - (p->size - largestX)));
 	if (!isMergable(*p))
 	{
 		p->position.x = preX;
@@ -324,7 +324,7 @@ void BoardSystem::receive(const MoveDownEvent& moveDownEvent)
 	auto p = piece.component<Piece>().get();
 	auto largestY = distanceToBottomPieceEdge(p);
 	auto preY = p->position.y;
-	p->position.y = Utils::clamp(p->position.y + 1, 0, Settings::Game::Rows - (p->size - largestY));
+	p->position.y = static_cast<float>(Utils::clamp(static_cast<int>(p->position.y + 1), 0, Settings::Game::Rows - (p->size - largestY)));
 	if (!isMergable(*p))
 	{
 		p->position.y = preY;
@@ -354,10 +354,10 @@ void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 {
 	Piece *p = piece.component<Piece>().get();
 	int newY = Settings::Game::Rows - p->size + distanceToBottomPieceEdge(p);
-	for (int row = p->position.y; row < Settings::Game::Rows; row++)
+	for (int row = static_cast<int>(p->position.y); row < Settings::Game::Rows; row++)
 	{
 		for (int y = distanceToTopPieceEdge(p); y < p->size - distanceToBottomPieceEdge(p); y++) {
-			int column = p->position.x + distanceToLeftPieceEdge(p);
+			int column = static_cast<int>(p->position.x + distanceToLeftPieceEdge(p));
 			for (int x = distanceToLeftPieceEdge(p); x < p->size - distanceToRightPieceEdge(p); x++)
 			{
 				if (column > Settings::Game::Columns - 1 || row + y > Settings::Game::Rows - 1)
@@ -378,7 +378,7 @@ void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
 		}
 	}
 timeToMerge:
-	p->position.y = newY;
+	p->position.y = static_cast<float>(newY);
 	merge(*p);
 	p->isDestroyed = true;
 }

@@ -43,12 +43,15 @@ void Game::initializeGraphics(HWND window)
 	HDC hdc = GetDC(this->window);
 	backbufferDC = CreateCompatibleDC(hdc);
 
-	RECT windowSize = { Settings::Window::StartPosition.x,
-		Settings::Window::StartPosition.y, Settings::Window::Size.x,
-		Settings::Window::Size.y };
+	RECT windowSize = {
+		static_cast<LONG>(Settings::Window::StartPosition.x),
+		static_cast<LONG>(Settings::Window::StartPosition.y),
+		static_cast<LONG>(Settings::Window::Size.x),
+		static_cast<LONG>(Settings::Window::Size.y) };
 
 	backbufferBitmap = CreateCompatibleBitmap(hdc,
-		Settings::Window::Size.x, Settings::Window::Size.y);
+		static_cast<int>(Settings::Window::Size.x), 
+		static_cast<int>(Settings::Window::Size.y));
 	// Store old object so that we don't leak.
 	oldObject = SelectObject(backbufferDC, backbufferBitmap);
 
@@ -74,7 +77,9 @@ void Game::initializeGraphics(HWND window)
 
 void Game::beginGraphics()
 {
-	RECT rectangle = { 0, 0, Settings::Window::Size.x, Settings::Window::Size.y };
+	RECT rectangle = { 0, 0, 
+		static_cast<LONG>(Settings::Window::Size.x), 
+		static_cast<LONG>(Settings::Window::Size.y) };
 	FillRect(backbufferDC, &rectangle, HBRUSH(COLOR_BACKGROUND));
 }
 
@@ -107,21 +112,6 @@ void Game::render(const double deltaTime)
 		screens[screens.size() - 1]->render(deltaTime);
 	}
 
-	/*for (auto& render : renderComponents)
-	{
-		render->render(*this);
-	}*/
-
-	// In case more entities are added.
-	/*for (auto& entity : entities) {
-		drawBitmap(bitmapDictionary.at(entity->resource), entity->x, entity->y);
-		}*/
-
-		//std::wstring scoreText(_T("Score: "));
-		//scoreText += std::to_wstring(score);
-		//drawString(scoreText, RGB(0, 0, 0), 2, 2);
-		//drawString(scoreText, RGB(255, 255, 255), 0, 0);
-
 	endGraphics();
 }
 
@@ -129,8 +119,10 @@ void Game::endGraphics()
 {
 	// Blit-block transfer to the main device context
 	HDC windowDC = GetDC(window);
-	BitBlt(windowDC, 0, 0, Settings::Window::Size.x,
-		Settings::Window::Size.y, backbufferDC, 0, 0, SRCCOPY);
+	BitBlt(windowDC, 0, 0, 
+		static_cast<int>(Settings::Window::Size.x),
+		static_cast<int>(Settings::Window::Size.y), 
+		backbufferDC, 0, 0, SRCCOPY);
 	ReleaseDC(window, windowDC);
 }
 
@@ -183,7 +175,7 @@ void Game::start()
 	gameScreenDictionary[GameScreenType::Play] = std::make_shared<MainGameScreen>(game);
 	gameScreenDictionary[GameScreenType::GameOver] = std::make_shared<GameOverScreen>(game);
 	gameScreenDictionary[GameScreenType::GameMenu] = std::make_shared<GameMenuScreen>(game);
-	
+
 	pushGameScreen(GameScreenType::MainMenu);
 }
 

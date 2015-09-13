@@ -1,5 +1,5 @@
 #pragma once
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 struct ScoreScreen {
 	ScoreScreen(const glm::vec2 &position)

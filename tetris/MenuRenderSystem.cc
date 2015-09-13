@@ -18,15 +18,23 @@ void MenuRenderSystem::update(entityx::EntityManager& es, entityx::EventManager&
 
 	es.each<MenuItem, Body>([this, dt](entityx::Entity entity, MenuItem& item, Body& body)
 	{
-		game->drawString(item.text, RGB(0, 0, 0), body.position.x + 1, body.position.y + 1);
-		game->drawString(item.text, RGB(255, 255, 255), body.position.x, body.position.y);
+		game->drawString(item.text, RGB(0, 0, 0), 
+			static_cast<int>(body.position.x + 1), 
+			static_cast<LONG>(body.position.y + 1));
+		game->drawString(item.text, RGB(255, 255, 255), 
+			static_cast<LONG>(body.position.x), 
+			static_cast<LONG>(body.position.y));
 	});
 
 	es.each<MenuItem, SelectedMenuItem, Body>([this, dt](entityx::Entity entity, MenuItem& item,
 		SelectedMenuItem&, Body& body)
 	{
-		game->drawString(item.text, RGB(0, 0, 0), body.position.x + 1, body.position.y + 1);
-		game->drawString(item.text, RGB(255, 0, 0), body.position.x, body.position.y);
+		game->drawString(item.text, RGB(0, 0, 0), 
+			static_cast<LONG>(body.position.x + 1), 
+			static_cast<LONG>(body.position.y + 1));
+		game->drawString(item.text, RGB(255, 0, 0), 
+			static_cast<LONG>(body.position.x), 
+			static_cast<LONG>(body.position.y));
 	});
 	game->endGraphics();
 }
