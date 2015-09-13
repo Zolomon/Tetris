@@ -2,6 +2,9 @@
 #include "Board.h"
 #include "Piece.h"
 #include "Utils.h"
+#include "ScoreEvent.h"
+#include "GameScreenType.h"
+#include "ScoreScreen.h"
 
 void BoardSystem::configure(entityx::EventManager& events)
 {
@@ -10,9 +13,10 @@ void BoardSystem::configure(entityx::EventManager& events)
 	events.subscribe<MoveDownEvent>(*this);
 	events.subscribe<InstantDownEvent>(*this);
 	events.subscribe<RotateEvent>(*this);
+	events.subscribe<RestartEvent>(*this);
 }
 
-BoardSystem::BoardSystem(std::shared_ptr<Game> target) : target(target), currentTime(0), pieceMoveDownStartTime(0)
+BoardSystem::BoardSystem(std::shared_ptr<Game> target) : target(target), currentTime(0), pieceMoveDownStartTime(0), gameOver(false)
 {
 }
 
@@ -55,7 +59,7 @@ void BoardSystem::merge(Piece& piece)
 					auto xx = piece.position.x + x;
 					auto yy = piece.position.y + y;
 					auto index = xx + yy * Settings::Game::Columns;
-					if (index >= board.component<Board>()->cells.size())
+					if (index < 0 || index >= board.component<Board>()->cells.size())
 					{
 						continue;
 					}
@@ -79,9 +83,40 @@ void BoardSystem::update(entityx::EntityManager& es, entityx::EventManager& even
 		board = entity;
 	});
 
+	es.each<ScoreScreen>([this](entityx::Entity &entity, ScoreScreen&)
+	{
+		scoreScreen = entity;
+	});
+
 	currentTime += dt;
 
 	auto p = piece.component<Piece>();
+	if (restart)
+	{
+		restart = false;
+		gameOver = false;
+
+		// Reset total score
+		scoreScreen.component<ScoreScreen>()->score = 0;
+		scoreScreen.component<ScoreScreen>()->currentLevel = 0;
+		scoreScreen.component<ScoreScreen>()->clearedRows = 0;
+
+		// Reset piece
+		Piece *p = piece.component<Piece>().get();
+		p->isDestroyed = true;
+
+		// Clear board
+		auto b = board.component<Board>().get();
+		for (int y = 0; y < Settings::Game::Rows; y++)
+		{
+			for (int x = 0; x < Settings::Game::Columns; x++)
+			{
+				b->cells[x + y * Settings::Game::Columns].type = 0;
+				b->cells[x + y * Settings::Game::Columns].isFilled = false;
+			}
+		}
+	}
+
 	if (p->isDestroyed)
 	{
 		p->position.y = 0;
@@ -101,25 +136,75 @@ void BoardSystem::update(entityx::EntityManager& es, entityx::EventManager& even
 	}
 
 	std::vector<int> fullRows = getFullRows();
+	scoreAndShiftRowsDown(fullRows, events);
 
+	updateScoreScreen(fullRows.size());
+
+	checkForGameOver();
+}
+
+void BoardSystem::checkForGameOver()
+{
+	int maxY = Settings::Game::Rows;
+	for (int y = 0; y < Settings::Game::Rows; y++)
+	{
+		for (int x = 0; x < Settings::Game::Columns; x++)
+		{
+			if (board.component<Board>()->cells[x + (y)* Settings::Game::Columns].type != 0)
+			{
+				maxY = y;
+				goto findHighestCell;
+			}
+		}
+	}
+findHighestCell:
+	if (maxY < 4)
+	{
+		gameOver = true;
+	}
+
+	if (gameOver)
+	{
+		target->PushGameScreen(GameScreenType::GameOver);
+	}
+}
+
+void BoardSystem::updateScoreScreen(int newRows)
+{
+	auto ss = scoreScreen.component<ScoreScreen>().get();
+	ss->clearedRows += newRows;
+	if (ss->clearedRows >= Settings::Game::RowsPerLevel)
+	{
+		ss->currentLevel++;
+		ss->clearedRows = 0;
+		Settings::Game::MovePieceDownTime = Utils::clampd(Settings::Game::MovePieceDownTime - 0.05, Settings::Game::MovePieceDownTimeMin, Settings::Game::MovePieceDownTimeMax);
+	}
+	if (ss->currentLevel > ss->highestLevel)
+	{
+		ss->highestLevel = ss->currentLevel;
+	}
+	if (ss->score > ss->highScore)
+	{
+		ss->highScore = ss->score;
+	}
+}
+
+void BoardSystem::scoreAndShiftRowsDown(std::vector<int> fullRows, entityx::EventManager &events)
+{
 	for (auto row : fullRows)
 	{
 		for (int y = row; y > 1; y--)
 		{
 			for (int x = 0; x < Settings::Game::Columns; x++)
 			{
-				//if (board.component<Board>()->cells[x + (y - 1) * Settings::Game::Columns].type != 0) {
 				board.component<Board>()->cells[x + y * Settings::Game::Columns] =
 					board.component<Board>()->cells[x + (y - 1) * Settings::Game::Columns];
-				//}
+				if (board.component<Board>()->cells[x + (y - 1) * Settings::Game::Columns].type != 0) {
+					events.emit<ScoreEvent>();
+				}
 			}
 		}
 	}
-
-	/*for (int y = Settings::Game::Rows - 1; y >= 4; y++)
-	{
-		
-	}*/
 }
 
 std::vector<int> BoardSystem::getFullRows()
@@ -215,7 +300,7 @@ void BoardSystem::receive(const MoveLeftEvent& moveLeft)
 	auto p = piece.component<Piece>().get();
 	auto smallestX = distanceToLeftPieceEdge(p);
 	auto preX = p->position.x;
-	p->position.x = Utils::clamp(p->position.x - 1, -smallestX, Settings::Game::Columns);
+	p->position.x = Utils::clampd(p->position.x - 1, -smallestX, Settings::Game::Columns);
 	if (!isMergable(*p))
 	{
 		p->position.x = preX;
@@ -249,6 +334,7 @@ void BoardSystem::receive(const MoveDownEvent& moveDownEvent)
 	// If we can't go down any further
 	auto movePieceDownTimeDiff = this->pieceMoveDownStartTime + Settings::Game::MovePieceDownTime - currentTime;
 	if (movePieceDownTimeDiff <= 0) {
+		// TODO: Fix so that you can move left/right at the bottom row.
 		if (p->position.y + p->size - distanceToBottomPieceEdge(p) - 1 == Settings::Game::Rows - 1)
 		{
 			merge(*p);
@@ -256,6 +342,12 @@ void BoardSystem::receive(const MoveDownEvent& moveDownEvent)
 		}
 	}
 	this->pieceMoveDownStartTime = this->currentTime;
+	this->horizontalMovePieceStartTime = this->currentTime;
+}
+
+void BoardSystem::receive(const ScoreEvent& scoreEvent)
+{
+	score += scoreEvent.scorePerBlock;
 }
 
 void BoardSystem::receive(const InstantDownEvent& instantDownEvent)
@@ -296,6 +388,11 @@ void BoardSystem::receive(const PieceSpawnEvent& pieceSpawnEvent)
 	pieceMoveDownStartTime = currentTime;
 }
 
+void BoardSystem::receive(const RestartEvent& restartEvent)
+{
+	restart = true;
+}
+
 void BoardSystem::receive(const RotateEvent& rotateEvent)
 {
 	auto p = piece.component<Piece>().get();
@@ -328,7 +425,3 @@ void BoardSystem::receive(const RotateEvent& rotateEvent)
 		}
 	}
 }
-
-
-
-

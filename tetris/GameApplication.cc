@@ -1,27 +1,17 @@
-#include "GameScreen.h"
 #include "GameApplication.h"
 #include "SpawnSystem.h"
-#include "BodySystem.h"
-#include "BounceSystem.h"
-#include "CollisionSystem.h"
+#include "BoardSystem.h"
+#include "InputSystem.h"
 #include "ScoreSystem.h"
 #include "RenderSystem.h"
-#include "InputSystem.h"
-#include "BoardSystem.h"
 
-GameApplication::GameApplication(std::shared_ptr<Game> game) {
+GameApplication::GameApplication(std::shared_ptr<Game> game)  {
 	systems.add<SpawnSystem>(10);
 
 	systems.add<BoardSystem>(game);
 
 	systems.add<InputSystem>(game);
-
-	systems.add<BodySystem>();
-
-	systems.add<BounceSystem>();
-
-	systems.add<CollisionSystem>();
-
+	
 	systems.add<ScoreSystem>();
 
 	systems.add<RenderSystem>(game);
@@ -30,18 +20,18 @@ GameApplication::GameApplication(std::shared_ptr<Game> game) {
 }
 
 void GameApplication::update(entityx::TimeDelta dt) {
+	if (restart)
+	{
+		events.emit<RestartEvent>();
+		restart = false;
+	}
+
 	systems.update<InputSystem>(dt);
 	
 	systems.update<SpawnSystem>(dt);
 
 	systems.update<BoardSystem>(dt);
-
-	systems.update<BodySystem>(dt);
-
-	systems.update<BounceSystem>(dt);
-
-	systems.update<CollisionSystem>(dt);
-
+	
 	systems.update<ScoreSystem>(dt);	
 }
 

@@ -4,5 +4,7 @@ enum GameScreenType
 {
 	MainMenu,
 	Play,
-	Options
+	GameMenu,
+	GameOver,
+	Options,	
 };

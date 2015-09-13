@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "Application.h"
 #include <chrono>
+#include "GameScreenType.h"
+#include <map>
 
 class Game;
 class Application;
@@ -9,7 +11,7 @@ class Application;
 class GameScreen
 {
 public:
-	GameScreen(std::shared_ptr<Game> game, std::shared_ptr<Application> app) : game(game), app(app)
+	GameScreen(std::shared_ptr<Game> game, std::shared_ptr<Application> app) : restart(false), game(game), app(app)
 	{
 		
 	}
@@ -27,13 +29,10 @@ public:
 	virtual void Unloading() = 0;
 	virtual void OnUnloaded() = 0;*/
 
+	bool restart;
 protected:
 	std::shared_ptr<Game> game;
 	std::shared_ptr<Application> app;
-	std::chrono::duration<double> startTime;
-	std::chrono::duration<double> duration;
-	bool isFinishedLoading;
-
 };
 
 

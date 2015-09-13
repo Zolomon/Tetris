@@ -9,7 +9,9 @@
 #include "Game.h"
 #include <unordered_set>
 #include "PieceSpawnEvent.h"
+#include "RestartEvent.h"
 
+struct ScoreEvent;
 struct Piece;
 
 // Updates a body's position and rotation.
@@ -22,6 +24,10 @@ public:
 	bool isMergable(Piece& piece);
 
 	void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override;
+	void checkForGameOver();
+	void updateScoreScreen(int newRows);
+	void scoreAndShiftRowsDown(std::vector<int> fullRows, entityx::EventManager &events);
+	std::vector<int> getFullRows();
 	int distanceToTopPieceEdge(Piece* p);
 	int distanceToBottomPieceEdge(Piece* p);
 	int distanceToLeftPieceEdge(Piece* p);
@@ -38,13 +44,25 @@ public:
 
 	void receive(const PieceSpawnEvent &pieceSpawnEvent);
 
+	void receive(const ScoreEvent &scoreEvent);
+
+	void receive(const RestartEvent &restartEvent);
+
 	void merge(Piece& piece);
 
 	std::shared_ptr<Game> target;
 	entityx::Entity piece;
 	entityx::Entity board;
+	entityx::Entity scoreScreen;
 	entityx::EventManager *events;
 
 	double pieceMoveDownStartTime;
+	double horizontalMovePieceStartTime;
 	double currentTime;
+	long score;
+	long filledRows;
+	long maxFilledRows;
+	bool gameOver;
+	bool restart;
+	
 };

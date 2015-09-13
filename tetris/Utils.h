@@ -16,6 +16,11 @@ public:
 	{
 		return v < l ? l : v > h ? h : v;
 	}
+
+	static double clampd(double v, double l, double h)
+	{
+		return v < l ? l : v > h ? h : v;
+	}
 	
 	static int RandomInt(int min, int max)
 	{

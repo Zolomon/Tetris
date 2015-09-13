@@ -4,6 +4,8 @@
 #include "MainMenuGameScreen.h"
 #include "MainGameScreen.h"
 #include "GameScreenType.h"
+#include "GameOverScreen.h"
+#include "GameMenuScreen.h"
 
 bool Game::LoadBitmapFromFile(const std::wstring filename, Resource resource)
 {
@@ -64,18 +66,16 @@ void Game::InitializeGraphics(HWND window)
 	LoadBitmapFromFile(std::wstring(_T("magentablock.bmp")), Resource::MagentaBlock);
 	LoadBitmapFromFile(std::wstring(_T("orangeblock.bmp")), Resource::OrangeBlock);
 	LoadBitmapFromFile(std::wstring(_T("yellowblock.bmp")), Resource::YellowBlock);
-
-	//this->player = std::make_shared<Player>(0, 0);
-	//player->resource = Resource::PlayerTile;
-
-	// Initialize entities
-	//this->entities.push_back(player);
+	LoadBitmapFromFile(std::wstring(_T("disabledblock.bmp")), Resource::DisabledBlock);
+	LoadBitmapFromFile(std::wstring(_T("gameoverbackground.bmp")), Resource::GameOverBackground);
+	LoadBitmapFromFile(std::wstring(_T("mainmenubackground.bmp")), Resource::MainMenuBackground);
+	LoadBitmapFromFile(std::wstring(_T("gamemenubackground.bmp")), Resource::GameMenuBackground);
 }
 
 void Game::BeginGraphics()
 {
 	RECT rectangle = { 0, 0, Settings::Window::Size.x, Settings::Window::Size.y };
-	FillRect(backbufferDC, &rectangle, (HBRUSH)COLOR_BACKGROUND);
+	FillRect(backbufferDC, &rectangle, HBRUSH(COLOR_BACKGROUND));
 }
 
 void Game::DrawBitmap(Bitmap bitmap, int x, int y) const
@@ -181,6 +181,8 @@ void Game::Start()
 	//renderComponents.push_back(redBlockRenderComponent);
 	gameScreenDictionary[GameScreenType::MainMenu] = std::make_shared<MainMenuGameScreen>(game);
 	gameScreenDictionary[GameScreenType::Play] = std::make_shared<MainGameScreen>(game);
+	gameScreenDictionary[GameScreenType::GameOver] = std::make_shared<GameOverScreen>(game);
+	gameScreenDictionary[GameScreenType::GameMenu] = std::make_shared<GameMenuScreen>(game);
 	
 	PushGameScreen(GameScreenType::MainMenu);
 }

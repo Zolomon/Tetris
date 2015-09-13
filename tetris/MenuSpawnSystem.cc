@@ -16,6 +16,7 @@ void MenuSpawnSystem::update(entityx::EntityManager& es, entityx::EventManager& 
 		
 		std::function<void(std::shared_ptr<Game>)> playExec = [](std::shared_ptr<Game> game)
 		{
+			game->PushGameScreen(GameScreenType::GameMenu);
 			game->PushGameScreen(GameScreenType::Play);
 		};
 

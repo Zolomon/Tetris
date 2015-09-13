@@ -54,9 +54,6 @@
     <ClCompile Include="Game.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleRenderSystem.cc">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="RenderSystem.cc">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
@@ -69,22 +66,7 @@
     <ClCompile Include="MainMenuGameScreen.cc">
       <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="BodySystem.cc">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="BounceSystem.cc">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionSystem.cc">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="ExplosionSystem.cc">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="InputSystem.cc">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem.cc">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
     <ClCompile Include="ScoreSystem.cc">
@@ -114,6 +96,21 @@
     <ClCompile Include="Utils.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverScreen.cc">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverApplication.h">
+      <Filter>Header Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverApplication.cc">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMenuApplication.cc">
+      <Filter>Source Files\Applications</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMenuScreen.cc">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Settings.h">
@@ -140,18 +137,6 @@
     <ClInclude Include="BodySystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="BounceSystem.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionSystem.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="ExplosionSystem.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="RenderSystem.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
@@ -160,12 +145,6 @@
     </ClInclude>
     <ClInclude Include="ScoreSystem.h">
       <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleRenderSystem.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionEvent.h">
-      <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="InstanDownEvent.h">
       <Filter>Header Files\Events</Filter>
@@ -180,15 +159,6 @@
       <Filter>Header Files\Events</Filter>
     </ClInclude>
     <ClInclude Include="Body.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Collideable.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderable.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="ScoreScreen.h">
@@ -255,6 +225,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PieceSpawnEvent.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMenuApplication.h">
+      <Filter>Header Files\Applications</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMenuScreen.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="RestartEvent.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>

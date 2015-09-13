@@ -11,4 +11,8 @@ enum Resource
     Background,
 	BlackBlock,
 	OrangeBlock,
+	DisabledBlock,
+	GameOverBackground,
+	MainMenuBackground,
+	GameMenuBackground,
 };
